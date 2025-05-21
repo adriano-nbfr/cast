@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DsLayoutContentComponent } from '@dsmpf/ngx-dsmpf/layout/content';
 import { DsMenu } from '@dsmpf/ngx-dsmpf/menu';
-import { DsSidebarComponent, DsSidebarMenuComponent } from '@dsmpf/ngx-dsmpf/menu/sidebar';
+import { DsSidebarComponent, DsSidebarMenuComponent, DsSidebarMenuItemComponent } from '@dsmpf/ngx-dsmpf/menu/sidebar';
 
 @Component({
   selector: 'app-home',
@@ -10,25 +10,17 @@ import { DsSidebarComponent, DsSidebarMenuComponent } from '@dsmpf/ngx-dsmpf/men
     RouterOutlet,
     DsLayoutContentComponent,
     DsSidebarComponent,
-    DsSidebarMenuComponent
+    DsSidebarMenuComponent,
+    DsSidebarMenuItemComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class HomeComponent {
+export class DashboardComponent {
 
   protected menuPedidos: DsMenu = {
     destacarRotaAtiva: true,
     itens: [
-      {
-        rotulo: 'Catálogo de serviços',
-        link: './catalogo',
-        icone: 'la-list-alt'
-      },
-      {
-        separador: 'secao',
-        rotulo: 'Pedidos'
-      },
       {
         rotulo: 'Meus pedidos',
         link: './meus-pedidos',
