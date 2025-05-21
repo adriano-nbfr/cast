@@ -1,1 +1,12 @@
-<p>pedidos-gerenciador works!</p>
+<ds-conteudo>
+  <ds-conteudo-titulo icone="la-headset">Painel de gerenciamento</ds-conteudo-titulo>
+
+  <ds-card>
+    <ds-card-header-titulo>Pedidos</ds-card-header-titulo>
+
+    <ds-card-content>
+      <ds-datatable [dados]="datasource" [colunas]="colunas">
+      </ds-datatable>
+    </ds-card-content>
+  </ds-card>
+</ds-conteudo>
