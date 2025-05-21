@@ -9,7 +9,10 @@ export const appConfig: ApplicationConfig = {
     provideConfiguracaoBasica({
       parametrosAplicacao: environment.parametrosAplicacao,
       parametrosSeguranca: environment.parametrosSeguranca,
-      rotas: { primeiroNivel: routes, gerarEstruturaPadrao: true }
+      rotas: {
+        primeiroNivel: routes,
+        gerarEstruturaPadrao: true
+      }
     })
   ]
 };

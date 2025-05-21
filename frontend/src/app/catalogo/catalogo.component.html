@@ -1,0 +1,20 @@
+<ds-layout-content>
+  <div class="container">
+    @if (categorias().length) {
+      <nav class="links-categoria">
+        @for (categoria of categorias(); track categoria.id) {
+          <a [routerLink]="['.', categoria.id]">
+            <img [src]="endpointBase + '/' + categoria.id + '/icone'" aria-hidden="true" alt="">
+            {{categoria.nome}}
+          </a>
+        }
+      </nav>
+    }
+
+    <div class="text-center mt-5">
+      <button ds-botao cor="primary" tamanho="lg" routerLink="/">
+        Voltar para a página inicial
+      </button>
+    </div>
+  </div>
+</ds-layout-content>
