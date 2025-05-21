@@ -1,0 +1,26 @@
+<ds-layout-content>
+  <ds-card>
+    <ds-card-header-titulo>
+      Catálogo de serviços: {{categoria().nome}}
+    </ds-card-header-titulo>
+
+    <ds-card-content>
+      @if (servicos().length) {
+        <nav class="d-flex flex-wrap gap-4 p-3">
+          @for (servico of servicos(); track servico.id) {
+            <a routerLink="/pedidos/novo" [queryParams]="{idServico: servico.id}"
+              ds-botao-icone icone="la-tools" [hover]="true" cor="auto" tamanhoIcone="lg">
+              {{servico.nome}}
+            </a>
+          }
+        </nav>
+      }
+    </ds-card-content>
+
+    <ds-card-footer alinhamentoBotoes="center">
+      <button ds-botao cor="primary" tamanho="lg" routerLink="..">
+        Voltar para o catálogo
+      </button>
+    </ds-card-footer>
+  </ds-card>
+</ds-layout-content>
