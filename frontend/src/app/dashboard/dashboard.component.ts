@@ -18,7 +18,6 @@ import { DsSidebarComponent, DsSidebarMenuComponent } from '@dsmpf/ngx-dsmpf/men
 export class HomeComponent {
 
   protected menuPedidos: DsMenu = {
-    titulo: "Home",
     destacarRotaAtiva: true,
     itens: [
       {

@@ -3,11 +3,13 @@ package br.mp.mpf.cast.controller.catalogo;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,6 +67,7 @@ public class CatalogoController extends RecursoRestBaseController {
             return ResponseEntity.ok()
             .contentLength(bytes.length)
             .contentType(MediaType.IMAGE_PNG)
+            .cacheControl(CacheControl.maxAge(30, TimeUnit.DAYS))
             .body(bytes);
         } catch (IOException e) {
             throw new RuntimeExceptionTratado("Não foi possível obter o arquivo do ícone da categoria.");
