@@ -9,6 +9,9 @@ const UrgenciaPedido: Record<number, string> = {
 };
 
 
+export const TiposUrgenciaPedido = Array.from(Object.keys(UrgenciaPedido)).map(v => parseInt(v));
+
+
 @Pipe({
   name: 'urgenciaPedido'
 })

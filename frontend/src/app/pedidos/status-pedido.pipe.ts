@@ -7,6 +7,8 @@ const StatusPedido: Record<string, string> = {
   'F': 'Fechado'
 };
 
+export const TiposStatusPedido = Array.from(Object.keys(StatusPedido));
+
 
 @Pipe({
   name: 'statusPedido'

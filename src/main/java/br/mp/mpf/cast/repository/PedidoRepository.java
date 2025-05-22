@@ -39,7 +39,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     static final String whereComFiltro =
         " where (p.id = :id or :id is null)" +
         "   and (upper(p.titulo || ' ' || p.descricao) like '%' || upper(:texto) || '%' or trim(:texto) = '')" +
-        // "   and (p.dataFechamento is null or :status = 'F') " +
+        "   and (p.dataFechamento is null or :status = 'F') " +
         "   and (p.status = :status or :status is null) " +
         "   and (p.urgencia = :urgencia or :urgencia is null) " +
         "   and (trunc(p.dataAbertura) between trunc(coalesce(:dataInicial, p.dataAbertura)) and trunc(coalesce(:dataFinal, p.dataAbertura))) " +

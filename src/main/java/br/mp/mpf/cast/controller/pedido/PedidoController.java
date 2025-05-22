@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.mp.mpf.cast.controller.RecursoRestBaseController;
 import br.mp.mpf.cast.dto.AndamentoPedidoDto;
+import br.mp.mpf.cast.dto.GrupoAtendimentoMinimoDto;
 import br.mp.mpf.cast.dto.PedidoDto;
 import br.mp.mpf.cast.dto.PedidoListagemDto;
 import br.mp.mpf.cast.dto.UsuarioMinimoDto;
@@ -36,6 +37,7 @@ import br.mp.mpf.cast.model.Pedido;
 import br.mp.mpf.cast.model.tipos.AvaliacaoPedido;
 import br.mp.mpf.cast.model.tipos.StatusPedido;
 import br.mp.mpf.cast.model.tipos.UrgenciaPedido;
+import br.mp.mpf.cast.service.manutencao.GrupoAtendimentoService;
 import br.mp.mpf.cast.service.manutencao.UsuarioGrupoAtendimentoService;
 import br.mp.mpf.cast.service.manutencao.UsuarioService;
 import br.mp.mpf.cast.service.pedido.PedidoService;
@@ -48,7 +50,9 @@ public class PedidoController extends RecursoRestBaseController {
 
     @Autowired private UsuarioGrupoAtendimentoService usuarioGrupoAtendimentoService;
 
-     @Autowired private UsuarioService usuarioService;
+    @Autowired private UsuarioService usuarioService;
+
+    @Autowired private GrupoAtendimentoService grupoAtendimentoService;
 
     @Autowired private PedidoMapper mapper;
 
@@ -173,6 +177,13 @@ public class PedidoController extends RecursoRestBaseController {
 
 
     /// Endpoints secundários auxiliares
+
+    @GetMapping("/buscar/grupos")
+    public List<GrupoAtendimentoMinimoDto> buscarGrupos (
+        @RequestParam(required=true) String termo,
+        @RequestParam(required=false) Long idCategoria) {
+        return grupoAtendimentoService.buscarDto(termo, idCategoria);
+    }
 
     @GetMapping("/buscar/usuarios")
     public List<UsuarioMinimoDto> buscarUsuarios (@RequestParam(required=true) String termo) {

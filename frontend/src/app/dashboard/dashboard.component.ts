@@ -27,7 +27,7 @@ export class DashboardComponent {
         icone: 'la-list'
       },
       {
-        rotulo: 'Painel de gerenciamento',
+        rotulo: 'Painel gerencial',
         link: './pedidos',
         icone: 'la-headset'
       }

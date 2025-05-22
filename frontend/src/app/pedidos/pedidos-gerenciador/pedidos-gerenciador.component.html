@@ -1,12 +1,13 @@
 <ds-conteudo>
-  <ds-conteudo-titulo icone="la-headset">Painel de gerenciamento</ds-conteudo-titulo>
+  <ds-conteudo-titulo icone="la-headset">Painel gerencial</ds-conteudo-titulo>
 
   <ds-card>
     <ds-card-header-titulo>Pedidos</ds-card-header-titulo>
 
     <ds-card-content>
       <ds-datatable [dados]="datasource" [colunas]="colunas"
-        [colunasExibidas]="['titulo','descricao','urgencia','usuarioSolicitante.nome','dataAbertura','status']">
+        [colunasExibidas]="['urgencia','status','titulo','descricao',
+          'usuarioSolicitante.nome','usuarioAtendente.nome','dataAbertura']">
 
         <ng-container dsDatatableColuna="urgencia" titulo="Urgência" ordenavel="true" largura="120">
           <ng-template dsColunaCelula let-urgencia>
@@ -28,4 +29,5 @@
       </ds-datatable>
     </ds-card-content>
   </ds-card>
+
 </ds-conteudo>

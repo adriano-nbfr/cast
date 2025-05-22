@@ -19,7 +19,7 @@ import lombok.ToString;
 public class PedidoDto extends EntidadeGenericaDto {
 
 	private Long id;
-    private ServicoMinimoDto servico;
+    private ServicoListagemDto servico;
     private GrupoAtendimentoMinimoDto grupoAtendimento;
     private UsuarioMinimoDto usuarioAbertura;
     private UsuarioMinimoDto usuarioSolicitante;
