@@ -2,6 +2,63 @@
   <ds-conteudo-titulo icone="la-headset">Painel gerencial</ds-conteudo-titulo>
 
   <ds-card>
+    <ds-card-header-titulo>Filtro</ds-card-header-titulo>
+
+    <ds-card-content>
+      <form dsForm #form="dsForm" [bloquearSugestoes]="true">
+        <ds-form-control gridClass="col-md-3">
+          <input type="text" ngModel name="dataInicial" dsFormControl label="Data inicial"
+            dsDatepicker #dataInicial="dsDatepicker" [dataMaxima]="dataFinal.dataInterna()">
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-3">
+          <input type="text" ngModel name="dataFinal" dsFormControl label="Data final"
+            dsDatepicker [dataMinima]="dataInicial.dataInterna()" #dataFinal="dsDatepicker">
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-2">
+          <select dsFormControl label="Urgência" ngModel name="urgencia">
+            <option [ngValue]="null"></option>
+            @for (u of opcoesUrgencia; track $index) {
+              <option [ngValue]="u">{{u | urgenciaPedido}}</option>
+            }
+          </select>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-2">
+          <select dsFormControl label="Status" ngModel name="status">
+            <option [ngValue]="null"></option>
+            @for (s of opcoesStatus; track $index) {
+              <option [ngValue]="s">{{s | statusPedido}}</option>
+            }
+          </select>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-3">
+          <input type="text" dsFormControl label="Solicitante" ngModel name="idUsuarioSolicitante"
+            [dsAutocompletar]="buscarUsuario" tamanhoMinimo="2" atributoRotulo="nome" atributoValor="id" autoSelecionarUnicoItem>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-3">
+          <input type="text" dsFormControl label="Atendente" ngModel name="idUsuarioAtendente"
+            [dsAutocompletar]="buscarUsuario" tamanhoMinimo="2" atributoRotulo="nome" atributoValor="id" autoSelecionarUnicoItem>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md">
+          <input type="text" dsFormControl label="Texto" ngModel name="texto">
+        </ds-form-control>
+
+      </form>
+    </ds-card-content>
+
+    <ds-card-footer alinhamentoBotoes="left">
+      <button ds-botao cor="primary" (click)="consultar(form.valorBruto)">Consultar</button>
+      <button ds-botao cor="secondary" (click)="form.reset()">Limpar</button>
+    </ds-card-footer>
+
+  </ds-card>
+
+  <ds-card>
     <ds-card-header-titulo>Pedidos</ds-card-header-titulo>
 
     <ds-card-content>

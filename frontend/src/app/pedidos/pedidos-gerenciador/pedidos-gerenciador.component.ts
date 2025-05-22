@@ -5,15 +5,26 @@ import { DsDatasourceRestFactory } from '@dsmpf/ngx-dsmpf/datasource';
 import { DsDatatableColunaDef, DsDatatableImports } from '@dsmpf/ngx-dsmpf/datasource/datatable';
 import { Pedido } from '../../shared/model/pedido';
 import { PedidosService } from '../pedidos.service';
-import { StatusPedidoPipe } from '../status-pedido.pipe';
-import { UrgenciaPedidoPipe } from '../urgencia-pedido.pipe';
+import { StatusPedidoPipe, TiposStatusPedido } from '../status-pedido.pipe';
+import { TiposUrgenciaPedido, UrgenciaPedidoPipe } from '../urgencia-pedido.pipe';
+import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
+import { FormsModule } from '@angular/forms';
+import { DsDatepickerDirective } from '@dsmpf/ngx-dsmpf/form/datepicker';
+import { DsBotaoComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes';
+import { DsAutocompletarDirective } from '@dsmpf/ngx-dsmpf/form/autocompletar';
+import { Usuario } from '../../shared/model/usuario';
 
 @Component({
   selector: 'app-pedidos-gerenciador',
   imports: [
+    FormsModule,
     DsConteudoImports,
     DsDatatableImports,
     DsCardImports,
+    DsFormImports,
+    DsDatepickerDirective,
+    DsAutocompletarDirective,
+    DsBotaoComponent,
     UrgenciaPedidoPipe,
     StatusPedidoPipe
   ],
@@ -37,6 +48,13 @@ export class PedidosGerenciadorComponent implements OnInit {
     {id: 'usuarioAtendente.nome', titulo: 'Atendente', ordenavel: true, largura: '180'},
     {id: 'dataAbertura', titulo: 'Abertura', ordenavel: true, largura: '130', formatoData: 'dd/MM/yyyy HH:mm'},
   ];
+
+  protected opcoesUrgencia = TiposUrgenciaPedido;
+
+  protected opcoesStatus = TiposStatusPedido;
+
+  protected buscarUsuario = this.pedidosService
+    .criarFuncaoAutocompletar<Usuario>('buscar/usuarios');
 
 
   ngOnInit() {
