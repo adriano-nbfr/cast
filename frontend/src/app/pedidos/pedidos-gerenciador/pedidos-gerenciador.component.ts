@@ -30,7 +30,7 @@ export class PedidosGerenciadorComponent implements OnInit {
     .criarDatasourceRest<Pedido>(this.pedidosService.endpointApiRecurso);
 
   protected colunas: DsDatatableColunaDef<Pedido>[] = [
-    {id: 'id', titulo: 'Número', ordenavel: true, largura: '50'},
+    {id: 'id', titulo: 'Número', ordenavel: false, largura: '70', alinhamento: 'center'},
     {id: 'titulo', titulo: 'Título', ordenavel: false, largura: '15%'},
     {id: 'descricao', titulo: 'Descrição', ordenavel: false, conteudoLimitado: '2-linhas'},
     {id: 'usuarioSolicitante.nome', titulo: 'Solicitante', ordenavel: true, largura: '180'},

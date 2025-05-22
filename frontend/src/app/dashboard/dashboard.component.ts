@@ -23,12 +23,12 @@ export class DashboardComponent {
     itens: [
       {
         rotulo: 'Meus pedidos',
-        link: './meus-pedidos',
+        link: '/pedidos/meus-pedidos',
         icone: 'la-list'
       },
       {
         rotulo: 'Painel gerencial',
-        link: './pedidos',
+        link: '/pedidos/gerenciador',
         icone: 'la-headset'
       }
     ]
