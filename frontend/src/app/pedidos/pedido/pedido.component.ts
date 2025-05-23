@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, model, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { DsPreviaArquivoComponent, DsUploadArquivoComponent } from '@dsmpf/ngx-dsmpf/arquivo';
+import { DsAppNotificacao } from '@dsmpf/ngx-dsmpf/basico';
 import { DS_RAIZ_API } from '@dsmpf/ngx-dsmpf/configuracao';
 import { DsConteudoImports } from '@dsmpf/ngx-dsmpf/conteudo';
 import { DsCardImports } from '@dsmpf/ngx-dsmpf/conteudo/card';
@@ -11,6 +13,7 @@ import { DsBotaoIconeComponent, DsBotaoIconeVerticalComponent } from '@dsmpf/ngx
 import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
 import { DsAutocompletarDirective } from '@dsmpf/ngx-dsmpf/form/autocompletar';
 import { DsAppContent } from '@dsmpf/ngx-dsmpf/layout/content';
+import { DsAppPopup } from '@dsmpf/ngx-dsmpf/popup';
 import { finalize } from 'rxjs';
 import { Andamento } from '../../shared/model/andamento';
 import { GrupoAtendimento } from '../../shared/model/grupo-atendimento';
@@ -20,7 +23,6 @@ import { CorStatusPedidoPipe } from '../cor-status-pedido.pipe';
 import { PedidosService } from '../pedidos.service';
 import { StatusPedidoPipe } from '../status-pedido.pipe';
 import { TiposUrgenciaPedido, UrgenciaPedidoPipe } from '../urgencia-pedido.pipe';
-import { DsPreviaArquivoComponent, DsUploadArquivoComponent } from '@dsmpf/ngx-dsmpf/arquivo';
 
 @Component({
   selector: 'app-pedido',
@@ -54,6 +56,10 @@ export class PedidoComponent implements OnInit {
   protected pedidosService = inject(PedidosService);
 
   private contentService = inject(DsAppContent);
+
+  private appNotificacao = inject(DsAppNotificacao);
+
+  private appPopup = inject(DsAppPopup);
 
   protected editandoGrupo = signal(false);
 
@@ -153,9 +159,12 @@ export class PedidoComponent implements OnInit {
       this.formAndamento.value.descricao,
       this.formAndamento.value.arquivos)
       .pipe(finalize(() => this.contentService.desbloquear()))
-      .subscribe(() => {
-        this.formAndamento.reset();
-        this.carregarAndamentos();
+      .subscribe({
+        next: () => {
+          this.formAndamento.reset();
+          this.carregarAndamentos();
+        },
+        error: (error) => this.appNotificacao.notificarErro(error.message)
       });
   }
 
