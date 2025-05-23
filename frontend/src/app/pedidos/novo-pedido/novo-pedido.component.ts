@@ -44,7 +44,6 @@ export class NovoPedidoComponent implements OnInit {
 
   private fb = new FormBuilder();
 
-
   protected formPedido = this.fb.group({
     titulo: this.fb.control('', {validators: [Validators.required, Validators.minLength(10)]}),
     descricao: this.fb.control('', {validators: [Validators.required, Validators.minLength(50)]}),

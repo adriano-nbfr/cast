@@ -3,7 +3,9 @@ import { DsParametrosSeguranca } from "@dsmpf/ngx-dsmpf/seguranca";
 
 
 const PAPEIS = {
-  PAPEL_GERENTE: 'ATUACAO_OK'
+  PAPEL_GERENTE: 'ATUACAO_OK',
+  PAPEL_ATENDENTE: 'ATUACAO_OK',
+  PAPEL_ADMIN: 'CAST_ADMIN'
 };
 
 
@@ -22,6 +24,7 @@ const parametrosAplicacao: DsParametrosAplicacao = {
 
 // Parâmetros de autenticação/autorização específicos (definidos no back end)
 const parametrosSeguranca: DsParametrosSeguranca = {
+  papelAdmin: PAPEIS.PAPEL_ADMIN,
   api: {
     usuarioAutenticado: "/api/__seguranca/usuario",
     atuacoes: "/api/__seguranca/atuacoes-json",

@@ -193,8 +193,14 @@ public class PedidoService {
      * @param pedido - O objeto a ser persistido.
      */
     public Pedido salvar(Pedido pedido) {
-        if (pedido.getId() == null) {
+        Pedido anterior = pedidoRepository.findById(pedido.getId()).orElse(null);
+        List<String> alteracoes = new ArrayList<String>();
+
+        if (anterior == null && pedido.getId() == null) {
             pedido.setStatus(StatusPedido.C);
+        }
+        else if (anterior != null && pedido.getStatus() == StatusPedido.F) {
+            throw new RuntimeExceptionTratado("Não é possível alterar um pedido já fechado.");
         }
 
         if (pedido.getDataAbertura() == null)
@@ -219,12 +225,33 @@ public class PedidoService {
                 pedido.setGrupoAtendimento(gruposServico.get(0));
         }
 
-        pedido = pedidoRepository.save(pedido);
+        GrupoAtendimento grupoAnterior = anterior == null
+            ? null
+            : anterior.getGrupoAtendimento();
 
-        if (pedido.getGrupoAtendimento() != null) {
-            String texto = "Grupo atribuído: " + pedido.getGrupoAtendimento().getNome();
-            this.registrarAndamento(pedido, texto);
+        if (!pedido.getGrupoAtendimento().equals(grupoAnterior))
+            alteracoes.add("Grupo atribuído: " + pedido.getGrupoAtendimento().getNome());
+
+        if (anterior != null) {
+            if (!pedido.getUrgencia().equals(anterior.getUrgencia()))
+                alteracoes.add("Urgência alterada para: " + pedido.getUrgencia().toString());
+
+            if (!pedido.getUsuarioSolicitante().equals(anterior.getUsuarioSolicitante()))
+                alteracoes.add("Soicitante alterado para : " + pedido.getUsuarioSolicitante().getNome());
+
+            if (pedido.getUsuarioAtendente() == null && anterior.getUsuarioAtendente() != null) {
+                alteracoes.add(anterior.getUsuarioAtendente().getNome() + " deixou de ser atendente deste pedido.");
+            }
+            else if (pedido.getUsuarioAtendente() != null &&
+                !pedido.getUsuarioAtendente().equals(anterior.getUsuarioAtendente())) {
+                alteracoes.add("Novo atendente: " + pedido.getUsuarioAtendente().getNome());
+                pedido.setStatus(StatusPedido.A);
+            }
         }
+
+        pedidoRepository.save(pedido);
+
+        alteracoes.forEach((String texto) -> this.registrarAndamento(pedido, texto));
 
         return pedido;
     }

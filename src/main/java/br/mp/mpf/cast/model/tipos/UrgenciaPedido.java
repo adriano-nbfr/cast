@@ -4,25 +4,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 /** Um Enum que representa internamente a avaliação de um pedido. */
 public enum UrgenciaPedido {
-	MUITO_BAIXA(0),
-    BAIXA(1),
-    MEDIA(2),
-    ALTA(3),
-    MUITO_ALTA(4);
+	MUITO_BAIXA(0, "Muito baixa"),
+    BAIXA(1, "Baixa"),
+    MEDIA(2, "Média"),
+    ALTA(3, "Alta"),
+    MUITO_ALTA(4, "Muito alta");
 
 	private Integer key; //valor no banco de dados
+	private String descricao; //valor usado no toString
 
 	/**
 	 * Construtor que vai aceitar a passagem do valor, nomeado "key"
 	 * @param key - Valor, em parênteses, na definição do elemento da enum
 	 */
-	private UrgenciaPedido(Integer key) {
+	private UrgenciaPedido(Integer key, String descricao) {
 		this.key = key;
+        this.descricao = descricao;
 	}
 
     @JsonValue
     public Integer getValor() {
-       return this.key;
+       return this.ordinal();
     }
 
 	/**
@@ -32,7 +34,7 @@ public enum UrgenciaPedido {
 	 */
 	@Override
 	public String toString() {
-		return this.key.toString();
+		return this.descricao;
 	}
 
 	/**

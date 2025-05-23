@@ -51,9 +51,9 @@
       </form>
     </ds-card-content>
 
-    <ds-card-footer alinhamentoBotoes="left">
+    <ds-card-footer>
+      <button ds-botao cor="secondary" [disabled]="form.limpo" (click)="form.reset()">Limpar</button>
       <button ds-botao cor="primary" (click)="consultar(form.valorBruto)">Consultar</button>
-      <button ds-botao cor="secondary" (click)="form.reset()">Limpar</button>
     </ds-card-footer>
 
   </ds-card>
@@ -62,9 +62,15 @@
     <ds-card-header-titulo>Pedidos</ds-card-header-titulo>
 
     <ds-card-content>
-      <ds-datatable [dados]="datasource" [colunas]="colunas"
+      <ds-datatable [dados]="datasource" [colunas]="colunas" [acoesCustomizadas]="acoes"
         [colunasExibidas]="['id','urgencia','status','titulo','descricao',
           'usuarioSolicitante.nome','usuarioAtendente.nome','dataAbertura']">
+
+        <ng-container dsDatatableColuna="id" titulo="Número" ordenavel="true" largura="120">
+          <ng-template dsColunaCelula let-id>
+            <a [routerLink]="['..', id]"><span class="text-primary fw-semibold">{{id}}</span></a>
+          </ng-template>
+        </ng-container>
 
         <ng-container dsDatatableColuna="urgencia" titulo="Urgência" ordenavel="true" largura="120">
           <ng-template dsColunaCelula let-urgencia>
@@ -78,7 +84,7 @@
 
         <ng-container dsDatatableColuna="status" titulo="Status" ordenavel="true" largura="100">
           <ng-template dsColunaCelula let-status>
-            <span [class.text-decoration-line-through]="status === 'F'">
+            <span [class.text-decoration-line-through]="status === 'F'" [class]="status | codStatusPedido">
               {{status | statusPedido}}
             </span>
           </ng-template>
