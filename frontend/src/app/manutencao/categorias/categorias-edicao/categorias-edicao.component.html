@@ -1,1 +1,20 @@
-<p>categorias-edicao works!</p>
+<ds-crud-edicao [focoAutomaticoAposIncluir]="true">
+
+  <form dsForm [formGroup]="formCategoria" bloquearSugestoes="true" destaqueValidacao="true">
+    <ds-form-control gridClass="col-md-10 col-lg-4">
+      <input dsFormControl type="text" formControlName="nome" label="Nome" />
+    </ds-form-control>
+
+    <ds-form-control gridClass="col-md-10 col-lg-6">
+      <input dsFormControl type="text" formControlName="descricao" label="Descrição"
+        dica="Uma descrição mais detalhada dos tipos de serviços contidos na categoria" />
+    </ds-form-control>
+
+    <ds-form-control gridClass="col-md-2">
+      <input dsFormControl type="checkbox" formControlName="ativo" label="Ativa"
+        dica="Indica se a categoria está disponível no catálogo"
+        [dicaOpcoes]="{icone: 'info', evento: 'hover'}" dsFormSwitch [posicaoSwitch]="'antes'" />
+    </ds-form-control>
+  </form>
+
+</ds-crud-edicao>

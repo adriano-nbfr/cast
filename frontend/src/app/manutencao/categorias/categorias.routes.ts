@@ -12,7 +12,8 @@ const categoriasConfig: DsCrudDef = {
     .then(m => m.CategoriasConsultaComponent),
   componenteEdicaoLoadFn: () => import('./categorias-edicao/categorias-edicao.component')
     .then(m => m.CategoriasEdicaoComponent),
-  papeisEdicao: [ environment.papeis.PAPEL_GERENTE ]
+  papeisEdicao: [ environment.papeis.PAPEL_GERENTE ],
+
 };
 
 export default construirRotasCrudPadrao(categoriasConfig);

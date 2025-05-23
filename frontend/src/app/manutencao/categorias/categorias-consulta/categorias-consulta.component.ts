@@ -1,10 +1,10 @@
 import { Component, computed, inject } from '@angular/core';
-import { DsDatatableColunaDef } from '@dsmpf/ngx-dsmpf/datasource/datatable';
-import { Categoria } from '../../../shared/model/categoria';
-import { DsCrudImports } from '@dsmpf/ngx-dsmpf/crud';
 import { FormsModule } from '@angular/forms';
-import { DsAppSeguranca } from '@dsmpf/ngx-dsmpf/seguranca';
+import { DsCrudImports } from '@dsmpf/ngx-dsmpf/crud';
+import { DsDatatableColunaDef } from '@dsmpf/ngx-dsmpf/datasource/datatable';
 import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
+import { DsAppSeguranca } from '@dsmpf/ngx-dsmpf/seguranca';
+import { Categoria } from '../../../shared/model/categoria';
 
 @Component({
   selector: 'app-categorias-consulta',
@@ -32,7 +32,6 @@ export class CategoriasConsultaComponent {
       traducaoBoolean: {valorTrue: 'Sim', valorFalse: 'Não'}
     },
   ];
-
 
   protected exclusaoVisivel = (categoria: Categoria) => ((categoria.id ?? 0) as number) % 2 == 0;
 
