@@ -1,4 +1,4 @@
-<ds-crud-edicao [focoAutomaticoAposIncluir]="true">
+<ds-crud-edicao [focoAutomaticoAposIncluir]="true" #crudCategoria>
 
   <form dsForm [formGroup]="formCategoria" bloquearSugestoes="true" destaqueValidacao="true">
     <ds-form-control gridClass="col-md-10 col-lg-4">
@@ -16,5 +16,9 @@
         [dicaOpcoes]="{icone: 'info', evento: 'hover'}" dsFormSwitch [posicaoSwitch]="'antes'" />
     </ds-form-control>
   </form>
+
+  <ng-template dsCrudEdicaoDetalhe titulo="Serviços">
+    <app-categorias-servicos [categoria]="crudCategoria.recurso()"></app-categorias-servicos>
+  </ng-template>
 
 </ds-crud-edicao>
