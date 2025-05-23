@@ -17,8 +17,7 @@
     </ds-form-control>
   </form>
 
-  <ng-template dsCrudEdicaoDetalhe titulo="Serviços">
+  <ng-template dsCrudEdicaoDetalhe titulo="Serviços" [lazy]="false">
     <app-categorias-servicos [categoria]="crudCategoria.recurso()"></app-categorias-servicos>
   </ng-template>
-
 </ds-crud-edicao>
