@@ -13,6 +13,6 @@ export const appConfig: ApplicationConfig = {
         primeiroNivel: routes,
         gerarEstruturaPadrao: true
       }
-    })
+    }),
   ]
 };
