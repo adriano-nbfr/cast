@@ -112,6 +112,15 @@ public class PedidoController extends RecursoRestBaseController {
     }
 
 
+    @GetMapping("/meusPedidos")
+    public ResponseEntity<List<PedidoListagemDto>> listarMeusPedidos(
+        @RequestParam Map<String, String> parametros) {
+
+        parametros.put("idUsuarioSolicitante", "1"); // Amarra o usuário autenticado fake
+        return this.listarAtivosPorUrgencia(parametros);
+    }
+
+
     @GetMapping("novo")
     public ResponseEntity<PedidoDto> obterNovo(@RequestParam(required=true) Long idServico) {
         return ResponseEntity.ok(mapper.paraDto(this.pedidoService.obterNovo(idServico)));

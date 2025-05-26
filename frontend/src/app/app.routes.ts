@@ -7,6 +7,9 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent),
+    canMatch: [
+      () => inject(DsAppSeguranca).isUsuarioAutenticadoAssincrono(true)
+    ],
     children: [
       {
         path: 'pedidos',

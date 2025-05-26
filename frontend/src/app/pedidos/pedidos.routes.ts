@@ -6,6 +6,12 @@ import { PedidosService } from "./pedidos.service";
 
 export default [
   {
+    path: 'meus-pedidos',
+    title: 'Meus pedidos',
+    loadComponent: () => import('./meus-pedidos/meus-pedidos.component')
+      .then(m => m.MeusPedidosComponent)
+  },
+  {
     path: 'gerenciador',
     title: 'Painel gerencial',
     canMatch: [

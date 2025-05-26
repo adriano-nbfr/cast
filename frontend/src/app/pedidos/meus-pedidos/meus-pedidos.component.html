@@ -1,0 +1,104 @@
+<ds-conteudo>
+  <ds-conteudo-titulo icone="la-list">Meus pedidos</ds-conteudo-titulo>
+
+  <ds-card>
+    <ds-card-header-titulo>Filtro</ds-card-header-titulo>
+
+    <ds-card-content>
+      <form dsForm #form="dsForm" [bloquearSugestoes]="true">
+        <ds-form-control gridClass="col-md-2">
+          <input type="text" ngModel name="dataInicial" dsFormControl label="Data inicial"
+            dsDatepicker #dataInicial="dsDatepicker" [dataMaxima]="dataFinal.dataInterna()">
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-2">
+          <input type="text" ngModel name="dataFinal" dsFormControl label="Data final"
+            dsDatepicker [dataMinima]="dataInicial.dataInterna()" #dataFinal="dsDatepicker">
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-2">
+          <select dsFormControl label="Urgência" ngModel name="urgencia">
+            <option [ngValue]="null"></option>
+            @for (u of opcoesUrgencia; track $index) {
+              <option [ngValue]="u">{{u | urgenciaPedido}}</option>
+            }
+          </select>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-2">
+          <select dsFormControl label="Status" ngModel name="status">
+            <option [ngValue]="null"></option>
+            @for (s of opcoesStatus; track $index) {
+              <option [ngValue]="s">{{s | statusPedido}}</option>
+            }
+          </select>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md">
+          <input type="text" dsFormControl label="Texto" ngModel name="texto">
+        </ds-form-control>
+
+      </form>
+    </ds-card-content>
+
+    <ds-card-footer>
+      <button ds-botao cor="auto" [disabled]="form.limpo" (click)="form.reset()">Limpar</button>
+      <button ds-botao cor="primary" (click)="consultar(form.valorBruto)">Consultar</button>
+    </ds-card-footer>
+
+  </ds-card>
+
+  <ds-card>
+    <ds-card-header-titulo>Pedidos</ds-card-header-titulo>
+
+    <ds-card-content>
+
+      @if (datasource.ocupado()) {
+        <ds-placeholder tamanho="10x" espacamentoVertical="3" [quantidadeLinhas]="5"></ds-placeholder>
+      }
+      @else if (datasource.erro()) {
+        <div class="text-danger text-center p-5">
+          <p class="fs-5 fw-semibold">Ocorreu um erro ao tentar obter os pedidos.</p>
+          <p>{{datasource.erro()}}</p>
+        </div>
+      }
+      @else {
+        @for (pedido of datasource.dados(); track pedido.id) {
+          <article class="pedido">
+            <header class="pedido-cabecalho">
+              <a class="pedido-numero" href="" [routerLink]="['..', pedido.id]" target="_blank"
+                [attr.arial-label]="`Abrir o pedido nº ${pedido.id} em uma nova aba.`">
+                #{{pedido.id}}
+              </a>
+
+              <div>Urgência:
+                <span [class]="pedido.urgencia > 2 ? 'text-danger fw-semibold': ''">
+                  {{pedido.urgencia | urgenciaPedido}}
+                </span>
+
+                @if (pedido.urgencia === 4) {🔥}
+              </div>
+
+              <span [class]="pedido.status | codStatusPedido">{{pedido.status | statusPedido}}</span>
+
+              <span class="d-block">Aberto em: {{pedido.dataAbertura | date : 'dd/MM/yyy HH:mm'}}</span>
+            </header>
+
+            <div class="pedido-titulo">{{pedido.titulo}}</div>
+
+            <div class="pedido-descricao">
+              {{pedido.descricao}}
+            </div>
+          </article>
+        }
+        @empty {
+          <div class="text-center p-5">
+            <p class="fs-5 fw-semibold">Nenhum pedido encontrado.</p>
+          </div>
+        }
+      }
+
+    </ds-card-content>
+  </ds-card>
+
+</ds-conteudo>

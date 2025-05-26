@@ -37,7 +37,7 @@
 
         <ds-form-control gridClass="col-md-4">
           <input type="text" formControlName="usuarioSolicitante" dsFormControl label="Solicitante" dsValidacaoInline
-            [attr.readonly]="editandoSolicitante() || pedido().status === 'F' ? null : ''"
+            [attr.readonly]="editandoSolicitante() && pedido().status !== 'F' ? null : ''"
             [icone]="editandoSolicitante() ? 'la-search' : ''"
             [dsAutocompletar]="buscarUsuario" tamanhoMinimo="2" atributoRotulo="nome" autoSelecionarUnicoItem
             (selecaoItem)="editandoSolicitante.set(false)" #acSolicitante>
@@ -54,7 +54,7 @@
         <ds-form-control gridClass="col-md-4">
           <input type="text" formControlName="usuarioAtendente" dsFormControl label="Atendente"
             [icone]="editandoAtendente() ? 'la-search' : ''"
-            [attr.readonly]="editandoAtendente() || pedido().status === 'F' ? null : ''"
+            [attr.readonly]="editandoAtendente() && pedido().status !== 'F' ? null : ''"
             [dsAutocompletar]="buscarUsuario"
             tamanhoMinimo="2" atributoRotulo="nome" autoSelecionarUnicoItem
             (selecaoItem)="editandoAtendente.set(false)" #acAtendente>
@@ -72,7 +72,7 @@
           <input type="text" formControlName="grupoAtendimento" dsFormControl label="Grupo de atendimento" dsValidacaoInline
             [dsAutocompletar]="buscarGrupo" tamanhoMinimo="2" atributoRotulo="nome" autoSelecionarUnicoItem
             [icone]="editandoGrupo() ? 'la-search' : ''"
-            [attr.readonly]="editandoGrupo() || pedido().status === 'F' ? null : ''"
+            [attr.readonly]="editandoGrupo() && pedido().status !== 'F' ? null : ''"
             (selecaoItem)="editandoGrupo.set(false)" #acGrupo>
 
           @if (!editandoGrupo() && pedido().status !== 'F') {
@@ -88,6 +88,8 @@
 
     @if (pedido().status !== 'F' && cardPedido.conteudoExpandido ) {
       <ds-card-footer>
+        <button ds-botao cor="auto" [disabled]="!formPedido.dirty"
+          (click)="atualizarFormComPedidoCarregado()">Restaurar</button>
         <button ds-botao cor="primary" [disabled]="formPedido.invalid || !formPedido.dirty"
           (click)="salvarAlteracoesPedido()">Salvar alterações</button>
       </ds-card-footer>
@@ -157,7 +159,7 @@
       <ds-datatable [dados]="datasourceAndamentos"
         [colunas]="colunas" [colunasExibidas]="['descricao','usuario.nome','dataRegistro']">
 
-        <ng-container dsDatatableColuna="descricao">
+        <ng-container dsDatatableColuna="descricao" titulo="Descrição do andamento">
           <ng-template dsColunaCelula let-andamento="dadoLinha">
             @if (andamento.idArquivoAnexo) {
               <a ds-botao-icone cor="primary" icone="la-file" title="visualizar o arquivo em uma nova aba"

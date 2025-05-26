@@ -95,7 +95,7 @@ export class PedidoComponent implements OnInit {
 
 
   protected colunas: DsDatatableColunaDef<Andamento>[] = [
-    {id: 'usuario.nome', titulo: 'Usuario', ordenavel: false, largura: '180'},
+    {id: 'usuario.nome', titulo: 'Usuário', ordenavel: false, largura: '180'},
     {id: 'dataRegistro', titulo: 'Registro', ordenavel: true, largura: '130', formatoData: 'dd/MM/yyyy HH:mm'},
   ];
 
@@ -107,12 +107,12 @@ export class PedidoComponent implements OnInit {
 
 
   private inicializarDatasourceAndamentos() {
-    const endpoint = `${this.pedido().id}/andamentos`;
-
+    const idPedido = this.pedido().id ?? '';
     this.datasourceAndamentos.definirFonteDados(
-      this.pedidosService.obterRecursoAuxiliar(endpoint, {relativo: true})
+      this.pedidosService.obterAndamentosPedido(idPedido)
     );
 
+    this.datasourceAndamentos.ordenacao = {coluna: 'dataRegistro', sentido: 'desc'};
     this.datasourceAndamentos.conectar();
   }
 
@@ -176,7 +176,7 @@ export class PedidoComponent implements OnInit {
     this.formAndamento.patchValue({arquivos});
   }
 
-  private atualizarFormComPedidoCarregado() {
+  protected atualizarFormComPedidoCarregado() {
     this.formPedido.patchValue(this.pedido());
     this.formPedido.markAsPristine();
     this.editandoGrupo.set(false);

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -47,6 +49,7 @@ public class Categoria  implements Serializable {
 	 * 0: Não
 	 * 1: Sim (Default)
 	 */
+    @Type(type = "org.hibernate.type.NumericBooleanType")
 	@Column(name="ST_ATIVO", nullable=false)
 	private boolean ativo = true;
 }

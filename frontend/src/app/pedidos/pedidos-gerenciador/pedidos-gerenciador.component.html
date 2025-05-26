@@ -52,7 +52,7 @@
     </ds-card-content>
 
     <ds-card-footer>
-      <button ds-botao cor="secondary" [disabled]="form.limpo" (click)="form.reset()">Limpar</button>
+      <button ds-botao cor="auto" [disabled]="form.limpo" (click)="form.reset()">Limpar</button>
       <button ds-botao cor="primary" (click)="consultar(form.valorBruto)">Consultar</button>
     </ds-card-footer>
 
@@ -68,7 +68,9 @@
 
         <ng-container dsDatatableColuna="id" titulo="Número" ordenavel="true" largura="120">
           <ng-template dsColunaCelula let-id>
-            <a [routerLink]="['..', id]"><span class="text-primary fw-semibold">{{id}}</span></a>
+            <a [routerLink]="['..', id]" target="_blank" [attr.arial-label]="`Abrir o pedido nº ${id} em uma nova aba.`">
+              <span class="text-primary fw-semibold">{{id}}</span>
+            </a>
           </ng-template>
         </ng-container>
 
