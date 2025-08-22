@@ -1,0 +1,10 @@
+<ds-layout-content>
+  <ds-sidebar>
+    <ds-sidebar-menu [menu]="menuPedidos()" titulo="Pedidos">
+      <ds-sidebar-menu-item icone="la-grip-horizontal" link="/catalogo">Catálogo de serviços</ds-sidebar-menu-item>
+      <ds-sidebar-menu-item separador></ds-sidebar-menu-item>
+    </ds-sidebar-menu>
+  </ds-sidebar>
+
+  <router-outlet></router-outlet>
+</ds-layout-content>

@@ -1,9 +1,9 @@
 import { Component, inject, input } from '@angular/core';
-import { Categoria } from '../shared/model/categoria';
-import { CatalogoApi } from './catalogo-api';
-import { DsLayoutContentComponent } from "@dsmpf/ngx-dsmpf/layout/content";
 import { RouterLink } from '@angular/router';
 import { DsBotaoComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes';
+import { DsLayoutContentComponent } from "@dsmpf/ngx-dsmpf/layout/content";
+import { Categoria } from '../shared/model/categoria';
+import { CatalogoApi } from './catalogo-api';
 
 @Component({
   selector: 'app-catalogo',

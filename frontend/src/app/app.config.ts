@@ -3,6 +3,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChang
 import { provideConfiguracaoBasica } from '@dsmpf/ngx-dsmpf/inicializacao';
 import { environment } from '../environment';
 import { routes } from './app.routes';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,6 +13,7 @@ export const appConfig: ApplicationConfig = {
       parametrosAplicacao: environment.parametrosAplicacao,
       parametrosSeguranca: environment.parametrosSeguranca,
       rotas: { primeiroNivel: routes, gerarEstruturaPadrao: true }
-    })
+    }),
+    provideHttpClient(withFetch())
   ]
 };
