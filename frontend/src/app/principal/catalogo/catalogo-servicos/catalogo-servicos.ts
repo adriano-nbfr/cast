@@ -1,0 +1,26 @@
+import { Component, computed, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { DsCardImports } from "@dsmpf/ngx-dsmpf/conteudo/card";
+import { DsBotaoComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes';
+import { DsBotaoIconeComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes/icone';
+import { Servico } from '../../../shared/model/servico';
+
+
+@Component({
+  selector: 'app-catalogo-servicos',
+  imports: [
+    RouterLink,
+    DsCardImports,
+    DsBotaoComponent,
+    DsBotaoIconeComponent
+  ],
+  templateUrl: './catalogo-servicos.html',
+  styleUrl: './catalogo-servicos.scss'
+})
+export class CatalogoServicos {
+
+  servicos = input.required<Servico[]>();
+
+  categoria = computed(() => this.servicos().length > 0 ? this.servicos()[0].categoria : undefined);
+
+}

@@ -15,11 +15,9 @@ export default [
     path: ':idCategoria',
     title: 'Catálogo - Serviços',
     resolve: {
-      servicos:(activeRoute: ActivatedRouteSnapshot) =>
-        inject(CatalogoApi).carregarServicos(activeRoute.params['idCategoria']),
-      categoria: (activeRoute: ActivatedRouteSnapshot) =>
-        inject(CatalogoApi).obterCategoria(activeRoute.params['idCategoria']),
+      servicos:(activatedRoute: ActivatedRouteSnapshot) =>
+        inject(CatalogoApi).carregarServicos(activatedRoute.params['idCategoria'])
     },
     loadComponent: () => import('./catalogo-servicos/catalogo-servicos').then(m => m.CatalogoServicos)
-  },
+  }
 ] as Routes;

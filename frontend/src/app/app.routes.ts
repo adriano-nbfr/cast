@@ -3,17 +3,12 @@ import { Routes } from '@angular/router';
 import { DsAppSeguranca } from '@dsmpf/ngx-dsmpf/seguranca';
 
 export const routes: Routes = [
+  // novas rotas entram antes da rota com o path vazio, devido ao match default por prefixo
   {
     path: '',
-    loadComponent: () => import('./principal/principal').then(m => m.Principal),
-    children: [
-    ]
-  },
-  {
-    path: 'catalogo',
     canMatch: [
-      () => inject(DsAppSeguranca).isUsuarioAutenticadoAssincrono(true)
+      () => inject(DsAppSeguranca).isUsuarioAutenticadoAssincrono()
     ],
-    loadChildren: () => import('./catalogo/catalogo.routes')
+    loadChildren: () => import('./principal/principal.routes')
   }
 ];

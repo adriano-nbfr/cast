@@ -60,7 +60,7 @@ public class ServicoService {
      * Retorna uma listagem ordenada de serviços ativos, filtrando opcionalmente pela categoria.
      * @param idCategoria - filtra pelo id da categoria (null para não filtrar)
      */
-    public List<ServicoMinimoDto> listarAtivosPorCategoria(Long idCategoria) {
+    public List<ServicoListagemDto> listarAtivosPorCategoria(Long idCategoria) {
         return servicoRepository.listarAtivosPorCategoriaDto(idCategoria);
     }
 

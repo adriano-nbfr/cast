@@ -88,8 +88,8 @@ public interface ServicoRepository  extends JpaRepository<Servico, Long> {
     /** Retorna uma listagem simples de serviços (como Dto), filtrando opcionalmente por categoria.
      * @param idCategoria - filtra pelo id da categoria (null para não filtrar)
      */
-    @Query(selectMinimoDto + from + whereAtivoPorCategoria + orderByNomeAsc)
-    List<ServicoMinimoDto> listarAtivosPorCategoriaDto(Long idCategoria);
+    @Query(selectListagemDto + from + whereAtivoPorCategoria + orderByNomeAsc)
+    List<ServicoListagemDto> listarAtivosPorCategoriaDto(Long idCategoria);
 
 
     /**

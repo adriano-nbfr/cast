@@ -27,7 +27,7 @@
     "@angular/forms": "^20.1.0",
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
-    "@dsmpf/ngx-dsmpf": "^20.0.0",
+    "@dsmpf/ngx-dsmpf": "^20.0.1",
     "@ng-bootstrap/ng-bootstrap": "^19.0.0",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",

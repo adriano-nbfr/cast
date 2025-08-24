@@ -25,7 +25,6 @@ import br.mp.mpf.cast.dto.CategoriaListagemDto;
 import br.mp.mpf.cast.dto.CategoriaMinimoDto;
 import br.mp.mpf.cast.dto.ServicoDto;
 import br.mp.mpf.cast.dto.ServicoListagemDto;
-import br.mp.mpf.cast.dto.ServicoMinimoDto;
 import br.mp.mpf.cast.dto.comum.AcaoLoteDto;
 import br.mp.mpf.cast.mapper.CategoriaMapper;
 import br.mp.mpf.cast.mapper.ServicoMapper;
@@ -149,7 +148,7 @@ public class CategoriaController extends RecursoRestBaseController {
 
 
     @GetMapping("{id}/servicos/listar")
-    public ResponseEntity<List<ServicoMinimoDto>> listarServicosVinculados(@PathVariable Long id) {
+    public ResponseEntity<List<ServicoListagemDto>> listarServicosVinculados(@PathVariable Long id) {
         return ResponseEntity.ok(servicoService.listarAtivosPorCategoria(id));
     }
 

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.mp.mpf.cast.controller.RecursoRestBaseController;
 import br.mp.mpf.cast.dto.CategoriaListagemDto;
-import br.mp.mpf.cast.dto.ServicoMinimoDto;
+import br.mp.mpf.cast.dto.ServicoListagemDto;
 import br.mp.mpf.cast.exception.RuntimeExceptionTratado;
 import br.mp.mpf.cast.mapper.CategoriaMapper;
 import br.mp.mpf.cast.service.manutencao.CategoriaService;
@@ -48,7 +48,7 @@ public class CatalogoController extends RecursoRestBaseController {
     }
 
     @GetMapping("categorias/{idCategoria}/servicos")
-    public ResponseEntity<List<ServicoMinimoDto>> listarServicosVinculados(@PathVariable Long idCategoria) {
+    public ResponseEntity<List<ServicoListagemDto>> listarServicosVinculados(@PathVariable Long idCategoria) {
         return ResponseEntity.ok(servicoService.listarAtivosPorCategoria(idCategoria));
     }
 

@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DsLayoutContentComponent } from '@dsmpf/ngx-dsmpf/layout/content';
 import { DsMenu } from '@dsmpf/ngx-dsmpf/menu';
-import { DsSidebarComponent, DsSidebarMenuComponent, DsSidebarMenuItemComponent } from '@dsmpf/ngx-dsmpf/menu/sidebar';
+import { DsSidebarComponent, DsSidebarMenuComponent } from '@dsmpf/ngx-dsmpf/menu/sidebar';
 import { DsAppSeguranca } from '@dsmpf/ngx-dsmpf/seguranca';
 import { environment } from '../../environment';
 
@@ -13,7 +13,6 @@ import { environment } from '../../environment';
     DsLayoutContentComponent,
     DsSidebarComponent,
     DsSidebarMenuComponent,
-    DsSidebarMenuItemComponent
   ],
   templateUrl: './principal.html',
   styleUrl: './principal.scss'
@@ -26,9 +25,14 @@ export class Principal {
     armazenada como um signal internamente ao DsAppSeguranca, sem ter que recarregar a aplicação inteira */
   protected menuPedidos = computed(() => {
     const menu: DsMenu = {
-      titulo: "Pedidos",
       destacarRotaAtiva: true,
       itens: [
+        {
+          rotulo: 'Catálogo de serviços',
+          link: '/catalogo',
+          icone: 'la-grip-horizontal'
+        },
+        { separador: true },
         {
           rotulo: 'Meus pedidos',
           link: '/pedidos/meus-pedidos',
@@ -40,7 +44,7 @@ export class Principal {
     if (this.appSeguranca.isUsuarioAutorizado(environment.papeis.PAPEL_ATENDENTE)) {
       menu.itens.push({
         rotulo: 'Painel gerencial',
-        link: '/pedidos/gerenciador',
+        link: '/pedidos/painel-gerencial',
         icone: 'la-headset'
       });
     }
