@@ -1,26 +1,27 @@
 import { Component, inject, model, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { DsUploadArquivoComponent } from '@dsmpf/ngx-dsmpf/arquivo';
+import { DsAppNotificacao } from '@dsmpf/ngx-dsmpf/basico';
+import { DS_RAIZ_API } from '@dsmpf/ngx-dsmpf/configuracao';
 import { DsConteudoImports } from '@dsmpf/ngx-dsmpf/conteudo';
 import { DsCardImports } from '@dsmpf/ngx-dsmpf/conteudo/card';
+import { DsDatasourceMemoria } from '@dsmpf/ngx-dsmpf/datasource';
 import { DsDatatableColunaDef, DsDatatableImports } from '@dsmpf/ngx-dsmpf/datasource/datatable';
-import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
-import { TiposUrgenciaPedido, UrgenciaPedidoPipe } from '../../../shared/pipes/urgencia-pedido.pipe';
-import { StatusPedidoPipe } from '../../../shared/pipes/status-pedido.pipe';
-import { CorStatusPedidoPipe } from '../../../shared/pipes/cor-status-pedido.pipe';
 import { DsBotaoComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes';
 import { DsBotaoIconeComponent, DsBotaoIconeVerticalComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes/icone';
+import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
 import { DsAutocompletarDirective } from '@dsmpf/ngx-dsmpf/form/autocompletar';
-import { DsUploadArquivoComponent } from '@dsmpf/ngx-dsmpf/arquivo';
-import { Pedido } from '../../../shared/model/pedido';
-import { PedidosApi } from '../pedidos-api';
-import { DS_RAIZ_API } from '@dsmpf/ngx-dsmpf/configuracao';
-import { DsDatasourceMemoria } from '@dsmpf/ngx-dsmpf/datasource';
-import { GrupoAtendimento } from '../../../shared/model/grupo-atendimento';
-import { Usuario } from '../../../shared/model/usuario';
-import { Andamento } from '../../../shared/model/andamento';
 import { DsAppContent } from '@dsmpf/ngx-dsmpf/layout/content';
 import { finalize } from 'rxjs';
+import { Andamento } from '../../../shared/model/andamento';
+import { GrupoAtendimento } from '../../../shared/model/grupo-atendimento';
+import { Pedido } from '../../../shared/model/pedido';
+import { Usuario } from '../../../shared/model/usuario';
+import { CorStatusPedidoPipe } from '../../../shared/pipes/cor-status-pedido.pipe';
+import { StatusPedidoPipe } from '../../../shared/pipes/status-pedido.pipe';
+import { TiposUrgenciaPedido, UrgenciaPedidoPipe } from '../../../shared/pipes/urgencia-pedido.pipe';
+import { PedidosApi } from '../pedidos-api';
 
 @Component({
   selector: 'app-pedido-edicao',
@@ -38,7 +39,7 @@ import { finalize } from 'rxjs';
     DsBotaoIconeComponent,
     DsBotaoIconeVerticalComponent,
     DsAutocompletarDirective,
-    DsUploadArquivoComponent,
+    DsUploadArquivoComponent
   ],
   templateUrl: './pedido-edicao.html',
   styleUrl: './pedido-edicao.scss'
@@ -50,6 +51,8 @@ export class PedidoEdicao {
   protected pedidosApi = inject(PedidosApi);
 
   protected appContent = inject(DsAppContent);
+
+  protected appNotificacao = inject(DsAppNotificacao);
 
   protected raizApi = inject(DS_RAIZ_API);
 
@@ -72,6 +75,11 @@ export class PedidoEdicao {
     grupoAtendimento: this.fb.control<GrupoAtendimento | null>(null, [Validators.required]),
     usuarioSolicitante: this.fb.control<Usuario | null>(null, {validators: [Validators.required]}),
     usuarioAtendente: this.fb.control<Usuario | null>(null),
+  });
+
+  protected formAndamento = this.fb.group({
+    descricao: this.fb.control('', {validators: [Validators.required, Validators.minLength(20)]}),
+    arquivos: this.fb.control<File[]>([], {nonNullable: true}),
   });
 
   protected buscarGrupo = this.pedidosApi
@@ -129,6 +137,27 @@ export class PedidoEdicao {
           this.carregarAndamentos();
         });
     }
+  }
+
+
+  protected registrarAndamento() {
+    if (!this.formAndamento.value.descricao)
+      return;
+
+    this.appContent.bloquear();
+    this.pedidosApi.registrarAndamento(
+      this.pedido(),
+      this.formAndamento.value.descricao,
+      this.formAndamento.value.arquivos)
+      .pipe(finalize(() => this.appContent.desbloquear()))
+      .subscribe({
+        next: () => {
+          this.formAndamento.reset();
+          this.carregarAndamentos();
+          this.appNotificacao.notificarSucesso('Andamento incluído com sucesso.');
+        },
+        error: (error) => this.appNotificacao.notificarErro(error.message)
+      });
   }
 
 }

@@ -63,6 +63,35 @@
     </ds-card-content>
   </ds-card>
 
+  @if (pedido().status !== 'F') {
+    <ds-card [recolhivel]="true" [recolherInicialmente]="true" #cardNovoAndamento>
+      <ds-card-header-titulo>Adicionar andamento</ds-card-header-titulo>
+
+      <ds-card-content>
+        <form dsForm [formGroup]="formAndamento">
+          <ds-form-control gridClass="col-12">
+            <textarea formControlName="descricao" dsFormControl label="Descrição" rows="3">
+            </textarea>
+          </ds-form-control>
+
+          <ds-form-control gridClass="col-md-6">
+            <ds-upload-arquivo formControlName="arquivos" dsFormControl label="Arquivos anexos"
+              [multiplos]="true" tiposAceitos="application/pdf, image/*"
+              quantidadeMaxima="5" tamanhoMaximo="1MB" tamanhoTotalMaximo="5MB">
+            </ds-upload-arquivo>
+          </ds-form-control>
+        </form>
+      </ds-card-content>
+
+      @if (cardNovoAndamento.conteudoExpandido ) {
+        <ds-card-footer>
+          <button ds-botao cor="primary" [disabled]="formAndamento.invalid || !formAndamento.dirty"
+            (click)="registrarAndamento()">Registrar andamento</button>
+        </ds-card-footer>
+      }
+    </ds-card>
+  }
+
   <ds-card>
     <ds-card-header-titulo>Andamentos</ds-card-header-titulo>
 
