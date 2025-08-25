@@ -12,7 +12,7 @@
     </ds-conteudo-botoes>
   </ds-conteudo-titulo>
 
-  <ds-card>
+  <ds-card [recolhivel]="true" #cardPedido>
     <ds-card-header-titulo>
       Status: <span [class]="pedido().status | corStatusPedido">{{pedido().status | statusPedido}}</span>
     </ds-card-header-titulo>
@@ -42,6 +42,14 @@
             [attr.readonly]="editandoSolicitante() && pedido().status !== 'F' ? null : ''"
             [icone]="editandoSolicitante() ? 'la-search' : ''"
             (selecaoItem)="editandoSolicitante.set(false)" #acSolicitante>
+
+          @if (!editandoSolicitante() && pedido().status !== 'F') {
+            <button ds-botao-icone icone="la-user" hover
+              aria-label="Alterar o solicitante do pedido"
+              title="Alterar o solicitante do pedido"
+              (click)="editandoSolicitante.set(true); acSolicitante.focus()">
+            </button>
+          }
         </ds-form-control>
 
         <ds-form-control gridClass="col-md-4">
@@ -50,6 +58,14 @@
             [attr.readonly]="editandoAtendente() && pedido().status !== 'F' ? null : ''"
             [icone]="editandoAtendente() ? 'la-search' : ''"
             (selecaoItem)="editandoAtendente.set(false)" #acAtendente>
+
+          @if (!editandoAtendente() && pedido().status !== 'F') {
+            <button ds-botao-icone icone="la-user" hover
+              aria-label="Atribuir um atendente ao pedido"
+              title="Atribuir um atendente ao pedido"
+              (click)="editandoAtendente.set(true); acAtendente.focus()">
+            </button>
+          }
         </ds-form-control>
 
         <ds-form-control gridClass="col-md-4">
@@ -58,9 +74,26 @@
             [attr.readonly]="editandoGrupo() && pedido().status !== 'F' ? null : ''"
             [icone]="editandoGrupo() ? 'la-search' : ''"
             (selecaoItem)="editandoGrupo.set(false)" #acGrupo>
+
+          @if (!editandoGrupo() && pedido().status !== 'F') {
+            <button ds-botao-icone icone="la-users" hover
+              aria-label="Alterar o grupo de atendimento"
+              title="Alterar o grupo de atendimento"
+              (click)="editandoGrupo.set(true); acGrupo.focus()">
+            </button>
+          }
         </ds-form-control>
       </form>
     </ds-card-content>
+
+    @if (pedido().status !== 'F' && cardPedido.conteudoExpandido ) {
+      <ds-card-footer>
+        <button ds-botao cor="auto" [disabled]="!formPedido.dirty"
+          (click)="atualizarFormComPedidoCarregado()">Restaurar</button>
+        <button ds-botao cor="primary" [disabled]="formPedido.invalid || !formPedido.dirty"
+          (click)="salvarAlteracoesPedido()">Salvar alterações</button>
+      </ds-card-footer>
+    }
   </ds-card>
 
   @if (pedido().status !== 'F') {

@@ -140,6 +140,20 @@ export class PedidoEdicao {
   }
 
 
+  protected salvarAlteracoesPedido() {
+    const body = {...this.pedido(), ...this.formPedido.value} as Pedido;
+
+    this.appContent.bloquear();
+    this.pedidosApi.alterar(body)
+      .pipe(finalize(() => this.appContent.desbloquear()))
+      .subscribe(pedido => {
+        this.pedido.set(pedido);
+        this.atualizarFormComPedidoCarregado();
+        this.carregarAndamentos();
+      });
+  }
+
+
   protected registrarAndamento() {
     if (!this.formAndamento.value.descricao)
       return;
