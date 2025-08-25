@@ -7,7 +7,7 @@ export const routes: Routes = [
   {
     path: '',
     canMatch: [
-      () => inject(DsAppSeguranca).isUsuarioAutenticadoAssincrono()
+      () => inject(DsAppSeguranca).isUsuarioAutenticadoAssincrono(true)
     ],
     loadChildren: () => import('./principal/principal.routes')
   }
