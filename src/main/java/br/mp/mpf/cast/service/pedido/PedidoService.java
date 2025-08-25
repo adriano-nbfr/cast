@@ -193,7 +193,10 @@ public class PedidoService {
      * @param pedido - O objeto a ser persistido.
      */
     public Pedido salvar(Pedido pedido) {
-        Pedido anterior = pedidoRepository.findById(pedido.getId()).orElse(null);
+        Pedido anterior = pedido.getId() != null
+            ? pedidoRepository.findById(pedido.getId()).orElse(null)
+            : null;
+
         List<String> alteracoes = new ArrayList<String>();
 
         if (anterior == null && pedido.getId() == null) {
