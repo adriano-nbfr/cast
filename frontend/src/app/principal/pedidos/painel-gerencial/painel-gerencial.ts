@@ -10,9 +10,10 @@ import { DsDatepickerDirective } from '@dsmpf/ngx-dsmpf/form/datepicker';
 import { DsAutocompletarDirective } from '@dsmpf/ngx-dsmpf/form/autocompletar';
 import { DsBotaoComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes';
 import { CorStatusPedidoPipe } from '../../../shared/pipes/cor-status-pedido.pipe';
-import { StatusPedidoPipe } from '../../../shared/pipes/status-pedido.pipe';
-import { UrgenciaPedidoPipe } from '../../../shared/pipes/urgencia-pedido.pipe';
+import { StatusPedidoPipe, TiposStatusPedido } from '../../../shared/pipes/status-pedido.pipe';
+import { TiposUrgenciaPedido, UrgenciaPedidoPipe } from '../../../shared/pipes/urgencia-pedido.pipe';
 import { Pedido } from '../../../shared/model/pedido';
+import { Usuario } from '../../../shared/model/usuario';
 
 @Component({
   selector: 'app-painel-gerencial',
@@ -40,6 +41,15 @@ export class PainelGerencial {
   private pedidosApi = inject(PedidosApi);
 
   protected datasource = this.pedidosApi.obterDatasourcePainelGerencial();
+
+  protected opcoesUrgencia = TiposUrgenciaPedido;
+
+  protected opcoesStatus = TiposStatusPedido;
+
+  protected buscarUsuario = this.pedidosApi
+    .criarFuncaoAutocompletar<Usuario>('buscar/usuarios');
+    // .criarFuncaoAutocompletar<Usuario>('buscar/usuarios', {parametroTermo: 'termo'});
+
 
   protected colunas: DsDatatableColunaDef<Pedido>[] = [
     // {id: 'id', titulo: 'Número', ordenavel: false, largura: '50'},
