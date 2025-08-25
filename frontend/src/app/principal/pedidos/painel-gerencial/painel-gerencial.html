@@ -63,8 +63,9 @@
 
     <ds-card-content>
       <ds-datatable [dados]="datasource" [colunas]="colunas"
-      [colunasExibidas]="['id','urgencia','status','titulo','descricao',
-       'usuarioSolicitante.nome','usuarioAtendente.nome','dataAbertura']">
+        [colunasExibidas]="['id','urgencia','status','titulo','descricao',
+        'usuarioSolicitante.nome','usuarioAtendente.nome','dataAbertura']"
+        [acoesCustomizadas]="acoes">
 
         <ng-container dsDatatableColuna="id" titulo="Número" ordenavel="true" largura="100">
           <ng-template dsColunaCelula let-id let-pedido="dadoLinha">

@@ -1,0 +1,98 @@
+<ds-conteudo>
+  <ds-conteudo-titulo icone="la-headset">
+    Pedido nº <span class="text-primary fs-semibold">{{pedido().id}}</span>
+    <ds-conteudo-subtitulo>
+      {{pedido().servico.categoria.nome}} - {{pedido().servico.nome}}
+    </ds-conteudo-subtitulo>
+
+    <ds-conteudo-botoes>
+      <button ds-botao-icone-vertical icone="la-arrow-left"
+        routerLink="../painel-gerencial" >Painel
+      </button>
+    </ds-conteudo-botoes>
+  </ds-conteudo-titulo>
+
+  <ds-card>
+    <ds-card-header-titulo>
+      Status: <span [class]="pedido().status | corStatusPedido">{{pedido().status | statusPedido}}</span>
+    </ds-card-header-titulo>
+
+    <ds-card-content>
+      <form dsForm [formGroup]="formPedido">
+        <ds-form-control gridClass="col-md-10" label="Titulo">
+          <input type="text" formControlName="titulo" dsFormControl label="título" readonly>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-2">
+          <select formControlName="urgencia" dsFormControl label="Urgência">
+            @for (u of opcoesUrgencia; track $index) {
+              <option [ngValue]="u">{{u | urgenciaPedido}}</option>
+            }
+          </select>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-12">
+          <textarea formControlName="descricao" dsFormControl label="Descrição" rows="5" readonly>
+          </textarea>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-4">
+          <input type="text" formControlName="usuarioSolicitante" dsFormControl label="Solicitante" dsValidacaoInline
+            [dsAutocompletar]="buscarUsuario" tamanhoMinimo="2" atributoRotulo="nome" autoSelecionarUnicoItem
+            [attr.readonly]="editandoSolicitante() && pedido().status !== 'F' ? null : ''"
+            [icone]="editandoSolicitante() ? 'la-search' : ''"
+            (selecaoItem)="editandoSolicitante.set(false)" #acSolicitante>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-4">
+          <input type="text" formControlName="usuarioAtendente" dsFormControl label="Atendente"
+            [dsAutocompletar]="buscarUsuario" tamanhoMinimo="2" atributoRotulo="nome" autoSelecionarUnicoItem
+            [attr.readonly]="editandoAtendente() && pedido().status !== 'F' ? null : ''"
+            [icone]="editandoAtendente() ? 'la-search' : ''"
+            (selecaoItem)="editandoAtendente.set(false)" #acAtendente>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-4">
+          <input type="text" formControlName="grupoAtendimento" dsFormControl label="Grupo de atendimento" dsValidacaoInline
+            [dsAutocompletar]="buscarGrupo" tamanhoMinimo="2" atributoRotulo="nome" autoSelecionarUnicoItem
+            [attr.readonly]="editandoGrupo() && pedido().status !== 'F' ? null : ''"
+            [icone]="editandoGrupo() ? 'la-search' : ''"
+            (selecaoItem)="editandoGrupo.set(false)" #acGrupo>
+        </ds-form-control>
+      </form>
+    </ds-card-content>
+  </ds-card>
+
+  <ds-card>
+    <ds-card-header-titulo>Andamentos</ds-card-header-titulo>
+
+    <ds-card-header-botoes>
+      @if (pedido().status !== 'F') {
+        <button ds-botao-icone icone="la-clock" hover cor="danger"
+          [disabled]="pedido().status === 'E'" (click)="suspender()">
+          Suspender
+        </button>
+      }
+    </ds-card-header-botoes>
+
+    <ds-card-content>
+      <ds-datatable [dados]="datasourceAndamentos"
+        [colunas]="colunas" [colunasExibidas]="['descricao','usuario.nome','dataRegistro']">
+
+        <ng-container dsDatatableColuna="descricao" titulo="Descrição do andamento">
+          <ng-template dsColunaCelula let-andamento="dadoLinha">
+            @if (andamento.idArquivoAnexo) {
+              <a ds-botao-icone cor="primary" icone="la-file" title="visualizar o arquivo em uma nova aba"
+                href="{{raizApi}}/pedidos/{{pedido().id}}/andamentos/{{andamento.id}}/arquivos/{{andamento.idArquivoAnexo}}"
+                target="_blank"><span class="ms-2">{{andamento.descricao}}</span></a>
+            }
+            @else {
+              {{andamento.descricao}}
+            }
+          </ng-template>
+        </ng-container>
+      </ds-datatable>
+    </ds-card-content>
+  </ds-card>
+
+</ds-conteudo>

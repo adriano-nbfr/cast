@@ -29,6 +29,15 @@ export default [
     loadComponent: () => import('./novo-pedido/novo-pedido').then(m => m.NovoPedido)
   },
   {
+    path: ':idPedido',
+    title: 'Pedido',
+    resolve: {
+      pedido: (activatedRoute: ActivatedRouteSnapshot) =>
+        inject(PedidosApi).obter(activatedRoute.params['idPedido'])
+    },
+    loadComponent: () => import('./pedido-edicao/pedido-edicao').then(m => m.PedidoEdicao)
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'meus-pedidos'

@@ -1,19 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { PedidosApi } from '../pedidos-api';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { DsConteudoImports } from '@dsmpf/ngx-dsmpf/conteudo';
 import { DsCardImports } from '@dsmpf/ngx-dsmpf/conteudo/card';
-import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
-import { DsDatatableColunaDef, DsDatatableImports } from '@dsmpf/ngx-dsmpf/datasource/datatable';
-import { DsDatepickerDirective } from '@dsmpf/ngx-dsmpf/form/datepicker';
-import { DsAutocompletarDirective } from '@dsmpf/ngx-dsmpf/form/autocompletar';
+import { DsDatatableAcaoDef, DsDatatableColunaDef, DsDatatableImports } from '@dsmpf/ngx-dsmpf/datasource/datatable';
 import { DsBotaoComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes';
+import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
+import { DsAutocompletarDirective } from '@dsmpf/ngx-dsmpf/form/autocompletar';
+import { DsDatepickerDirective } from '@dsmpf/ngx-dsmpf/form/datepicker';
+import { Pedido } from '../../../shared/model/pedido';
+import { Usuario } from '../../../shared/model/usuario';
 import { CorStatusPedidoPipe } from '../../../shared/pipes/cor-status-pedido.pipe';
 import { StatusPedidoPipe, TiposStatusPedido } from '../../../shared/pipes/status-pedido.pipe';
 import { TiposUrgenciaPedido, UrgenciaPedidoPipe } from '../../../shared/pipes/urgencia-pedido.pipe';
-import { Pedido } from '../../../shared/model/pedido';
-import { Usuario } from '../../../shared/model/usuario';
+import { PedidosApi } from '../pedidos-api';
 
 @Component({
   selector: 'app-painel-gerencial',
@@ -61,6 +61,18 @@ export class PainelGerencial {
     {id: 'usuarioAtendente.nome', titulo: 'Atendente', ordenavel: true, largura: '180'},
     {id: 'dataAbertura', titulo: 'Abertura', ordenavel: true, largura: '130', formatoData: 'dd/MM/yyyy HH:mm'},
   ];
+
+
+    // Ações customizadas representadas por um ícone no lado direito de cada linha
+    protected acoes: DsDatatableAcaoDef<Pedido>[] = [
+      {
+        id: 'abrir',
+        descricao: 'Abrir o pedido em uma nova aba',
+        icone: 'la-edit',
+        cor: 'primary',
+        funcao: (pedido) => this.abrirPedido(pedido.id)
+      }
+    ];
 
 
   ngOnInit() {

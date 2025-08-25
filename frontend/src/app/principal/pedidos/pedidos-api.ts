@@ -26,7 +26,7 @@ export class PedidosApi extends DsRecursoRestService<Pedido> {
     return this.obterRecursoAuxiliar(`pedidos/novo?idServico=${idServico}`);
   }
 
-  obterAndamentosPedido(idPedido: number | string) {
+  obterAndamentosPedido(idPedido: number | string): Observable<Andamento[]> {
     const endpoint = `${idPedido}/andamentos`;
     return this.obterRecursoAuxiliar(endpoint, {relativo: true});
   }
