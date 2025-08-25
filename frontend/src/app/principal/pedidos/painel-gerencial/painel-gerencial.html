@@ -1,1 +1,42 @@
-<h2>painel-gerencial works!</h2>
+<ds-conteudo>
+  <ds-conteudo-titulo icone="la-headset">Painel Gerencial</ds-conteudo-titulo>
+
+  <ds-card>
+    <ds-card-header-titulo>Pedidos</ds-card-header-titulo>
+
+    <ds-card-content>
+      <ds-datatable [dados]="datasource" [colunas]="colunas"
+      [colunasExibidas]="['id','urgencia','status','titulo','descricao',
+       'usuarioSolicitante.nome','usuarioAtendente.nome','dataAbertura']">
+
+        <ng-container dsDatatableColuna="id" titulo="Número" ordenavel="true" largura="100">
+          <ng-template dsColunaCelula let-id let-pedido="dadoLinha">
+            <a [routerLink]="['..', id]" target="_blank"
+              [attr.arial-label]="`Abrir o pedido nº ${id} em uma nova aba.`">
+              <span class="text-primary fw-semibold">{{id}}</span>
+            </a>
+          </ng-template>
+        </ng-container>
+
+        <ng-container dsDatatableColuna="urgencia" titulo="Urgência" ordenavel="true" largura="120">
+          <ng-template dsColunaCelula let-urgencia>
+            <span [class]="urgencia > 2 ? 'text-danger fw-semibold': ''">
+              {{urgencia | urgenciaPedido}}
+            </span>
+
+            @if (urgencia === 4) {🔥}
+          </ng-template>
+        </ng-container>
+
+        <ng-container dsDatatableColuna="status" titulo="Status" ordenavel="true" largura="100">
+          <ng-template dsColunaCelula let-status>
+            <span [class.text-decoration-line-through]="status === 'F'" [class]="status | corStatusPedido">
+              {{status | statusPedido}}
+            </span>
+          </ng-template>
+        </ng-container>
+
+      </ds-datatable>
+    </ds-card-content>
+  </ds-card>
+</ds-conteudo>
