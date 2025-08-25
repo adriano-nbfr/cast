@@ -172,8 +172,7 @@ public class PedidoController extends RecursoRestBaseController {
     public ResponseEntity<PedidoDto> fechar(
         @PathVariable Long id,
         @RequestParam(required=false) AvaliacaoPedido avaliacao,
-        @RequestParam(required=false) String texto
-        ) {
+        @RequestParam(required=false) String texto) {
 
         Pedido pedido = pedidoService.obter(id);
 
@@ -244,6 +243,23 @@ public class PedidoController extends RecursoRestBaseController {
     @GetMapping("{id}/andamentos")
     public ResponseEntity<List<AndamentoPedidoDto>> listarAndamentos(@PathVariable Long id) {
         return ResponseEntity.ok(pedidoService.listarAndamentosPorPedidoDto(id));
+    }
+
+
+    @PostMapping(path="{id}/andamentos", consumes={MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<AndamentoPedidoDto> registrarAndamento(
+        @PathVariable Long id,
+        @RequestBody() AndamentoPedidoDto andamentoPedidoDto) {
+
+        Pedido pedido = pedidoService.obter(id);
+
+        if (pedido == null)
+            return ResponseEntity.notFound().build();
+
+        AndamentoPedido andamento = pedidoService
+            .registrarAndamento(pedido, andamentoPedidoDto.getDescricao());
+
+        return ResponseEntity.ok(andamentoPedidoMapper.paraDto(andamento));
     }
 
 

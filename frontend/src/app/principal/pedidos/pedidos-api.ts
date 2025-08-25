@@ -32,10 +32,9 @@ export class PedidosApi extends DsRecursoRestService<Pedido> {
   }
 
   registrarAndamento(pedido: Pedido, descricao: string, arquivos?: File[]): Observable<Andamento> {
-    const requestBody = {
-      andamentoPedido: { descricao: descricao },
-      arquivos: arquivos ?? []
-    };
+    const requestBody = arquivos && arquivos.length
+      ? { andamentoPedido: { descricao: descricao }, arquivos: arquivos }
+      : { descricao: descricao };
 
     return this.enviarPost(`${pedido.id}/andamentos`, requestBody, {relativo: true});
   }

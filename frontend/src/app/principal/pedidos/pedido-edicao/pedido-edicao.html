@@ -12,7 +12,7 @@
     </ds-conteudo-botoes>
   </ds-conteudo-titulo>
 
-  <ds-card [recolhivel]="true" #cardPedido>
+  <ds-card>
     <ds-card-header-titulo>
       Status: <span [class]="pedido().status | corStatusPedido">{{pedido().status | statusPedido}}</span>
     </ds-card-header-titulo>
@@ -86,7 +86,7 @@
       </form>
     </ds-card-content>
 
-    @if (pedido().status !== 'F' && cardPedido.conteudoExpandido ) {
+    @if (pedido().status !== 'F') {
       <ds-card-footer>
         <button ds-botao cor="auto" [disabled]="!formPedido.dirty"
           (click)="atualizarFormComPedidoCarregado()">Restaurar</button>

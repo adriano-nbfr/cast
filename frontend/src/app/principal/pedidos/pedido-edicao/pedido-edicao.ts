@@ -70,7 +70,7 @@ export class PedidoEdicao {
 
   protected formPedido = this.fb.group({
     titulo: this.fb.control('', {validators: [Validators.required, Validators.minLength(10)]}),
-    descricao: this.fb.control('', {validators: [Validators.required, Validators.minLength(50)]}),
+    descricao: this.fb.control('', {validators: [Validators.required, Validators.minLength(20)]}),
     urgencia: this.fb.control(2, {validators: [Validators.required], nonNullable: true}),
     grupoAtendimento: this.fb.control<GrupoAtendimento | null>(null, [Validators.required]),
     usuarioSolicitante: this.fb.control<Usuario | null>(null, {validators: [Validators.required]}),
@@ -168,7 +168,6 @@ export class PedidoEdicao {
         next: () => {
           this.formAndamento.reset();
           this.carregarAndamentos();
-          this.appNotificacao.notificarSucesso('Andamento incluído com sucesso.');
         },
         error: (error) => this.appNotificacao.notificarErro(error.message)
       });
