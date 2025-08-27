@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DsCrudImports } from '@dsmpf/ngx-dsmpf/crud';
 import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
 import { DsFormSwitchDirective } from '@dsmpf/ngx-dsmpf/form/switch';
+import { CategoriasServicos } from "./categorias-servicos/categorias-servicos";
 
 @Component({
   selector: 'app-categorias-edicao',
@@ -10,8 +11,9 @@ import { DsFormSwitchDirective } from '@dsmpf/ngx-dsmpf/form/switch';
     ReactiveFormsModule,
     DsFormImports,
     DsCrudImports,
-    DsFormSwitchDirective
-  ],
+    DsFormSwitchDirective,
+    CategoriasServicos
+],
   templateUrl: './categorias-edicao.html',
   styleUrl: './categorias-edicao.scss'
 })

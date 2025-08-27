@@ -8,7 +8,7 @@ const categoriasCrudDef: DsCrudDef = {
     artigo: 'a'
   },
   endpointRest: 'manutencao/categorias',
-  papeisEdicao: [environment.papeis.PAPEL_GERENTE],
+  papeisEdicao: [environment.papeis.PAPEL_ADMIN],
   obterNovoPelaApi: true,
   componenteConsultaLoadFn: () => import('./categorias-consulta/categorias-consulta')
     .then(m => m.CategoriasConsulta),

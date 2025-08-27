@@ -1,4 +1,4 @@
-<ds-crud-edicao>
+<ds-crud-edicao #crudEdicao>
   <form dsForm [formGroup]="formCategoria" >
     <ds-form-control gridClass="col-md-10 col-lg-4">
       <input type="text" formControlName="nome" dsFormControl label="Nome" dsValidacaoInline>
@@ -14,4 +14,8 @@
         dica="Indica se a categoria está disponível no catálogo" dsFormSwitch [posicaoSwitch]="'antes'" >
     </ds-form-control>
   </form>
+
+  <ng-template dsCrudEdicaoDetalhe titulo="Serviços">
+    <app-categorias-servicos [categoria]="crudEdicao.recurso()"></app-categorias-servicos>
+  </ng-template>
 </ds-crud-edicao>
