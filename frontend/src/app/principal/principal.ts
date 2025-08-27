@@ -49,6 +49,16 @@ export class Principal {
       });
     }
 
+    if (this.appSeguranca.isUsuarioAutorizado(environment.papeis.PAPEL_GERENTE)) {
+      menu.itens.push(
+        { separador: 'secao', rotulo: 'Área do Gerente' },
+        {
+          rotulo: 'Módulo de cadastro',
+          link: '/manutencao',
+          icone: 'la-user-tie'
+        });
+    }
+
     return menu;
   });
 
