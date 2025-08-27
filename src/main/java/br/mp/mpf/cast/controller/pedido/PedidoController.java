@@ -199,7 +199,7 @@ public class PedidoController extends RecursoRestBaseController {
     }
 
 
-    /// Endpoints secundários do relacionamento com AndamentoPedido (Usuario atendente)
+    /// Endpoints secundários do relacionamento com Usuario (atendente)
 
     @GetMapping("{id}/atendentes/buscar")
     public List<UsuarioMinimoDto> buscarAtendentes (
@@ -247,7 +247,7 @@ public class PedidoController extends RecursoRestBaseController {
 
 
     @PostMapping(path="{id}/andamentos", consumes={MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<AndamentoPedidoDto> registrarAndamento(
+    public ResponseEntity<AndamentoPedidoDto> registrarAndamentoSemArquivo(
         @PathVariable Long id,
         @RequestBody() AndamentoPedidoDto andamentoPedidoDto) {
 
@@ -264,7 +264,7 @@ public class PedidoController extends RecursoRestBaseController {
 
 
     @PostMapping(path="{id}/andamentos", consumes={MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<AndamentoPedidoDto> registrarAndamento(
+    public ResponseEntity<AndamentoPedidoDto> registrarAndamentoComArquivo(
         @PathVariable Long id,
         @RequestPart(name = "andamentoPedido", required = true) AndamentoPedidoDto andamentoPedidoDto,
         @RequestPart List<MultipartFile> arquivos) {

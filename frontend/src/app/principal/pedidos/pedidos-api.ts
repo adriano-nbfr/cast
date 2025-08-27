@@ -33,8 +33,9 @@ export class PedidosApi extends DsRecursoRestService<Pedido> {
 
   registrarAndamento(pedido: Pedido, descricao: string, arquivos?: File[]): Observable<Andamento> {
     const requestBody = arquivos && arquivos.length
+      // andamento e arquivos serão automaticamente enviados como partes de um FormData (pela presença do File)
       ? { andamentoPedido: { descricao: descricao }, arquivos: arquivos }
-      : { descricao: descricao };
+      : { descricao: descricao }; // sem arquivo, o requestBody é apenas o próprio andamento
 
     return this.enviarPost(`${pedido.id}/andamentos`, requestBody, {relativo: true});
   }
