@@ -13,6 +13,7 @@ import { DsBotaoIconeComponent, DsBotaoIconeVerticalComponent } from '@dsmpf/ngx
 import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
 import { DsAutocompletarDirective } from '@dsmpf/ngx-dsmpf/form/autocompletar';
 import { DsAppContent } from '@dsmpf/ngx-dsmpf/layout/content';
+import { DsAppPopup } from '@dsmpf/ngx-dsmpf/popup';
 import { finalize } from 'rxjs';
 import { Andamento } from '../../../shared/model/andamento';
 import { GrupoAtendimento } from '../../../shared/model/grupo-atendimento';
@@ -53,6 +54,8 @@ export class PedidoEdicao {
   protected appContent = inject(DsAppContent);
 
   protected appNotificacao = inject(DsAppNotificacao);
+
+  private appPopup = inject(DsAppPopup);
 
   protected raizApi = inject(DS_RAIZ_API);
 
@@ -127,29 +130,39 @@ export class PedidoEdicao {
     this.datasourceAndamentos.atualizar();
   }
 
-  protected suspender() {
-    if (this.pedido().status !== 'E' && this.pedido().status !== 'F') {
-      this.appContent.bloquear();
-      this.pedidosApi.suspenderPedido(this.pedido())
-        .pipe(finalize(() => this.appContent.desbloquear()))
-        .subscribe(pedido => {
-          this.pedido.update(p => ({...p, status: pedido.status}));
-          this.carregarAndamentos();
-        });
-    }
+  protected async suspender() {
+    if (this.pedido().status == 'E' || this.pedido().status == 'F')
+      return;
+
+    this.appContent.bloquear();
+    this.pedidosApi.suspenderPedido(this.pedido())
+      .pipe(finalize(() => this.appContent.desbloquear()))
+      .subscribe(pedido => {
+        this.pedido.update(p => ({...p, status: pedido.status}));
+        this.carregarAndamentos();
+      });
   }
 
 
-  protected fechar() {
-    if (this.pedido().status !== 'F') {
-      this.appContent.bloquear();
-      this.pedidosApi.fecharPedido(this.pedido())
-        .pipe(finalize(() => this.appContent.desbloquear()))
-        .subscribe(pedido => {
-          this.pedido.update(p => ({...p, status: pedido.status}));
-          this.carregarAndamentos();
-        });
-    }
+  protected async fechar() {
+    if (this.pedido().status === 'F')
+      return;
+
+    const confirmacao = await this.appPopup.confirmar(
+      'Você confirma o fechamento do pedido?', 'confirmar-cancelar',
+      {botaoConfirmar: 'Sim', botaoCancelar: 'Não'}
+    );
+
+    if (!confirmacao.confirmado)
+      return;
+
+    this.appContent.bloquear();
+    this.pedidosApi.fecharPedido(this.pedido())
+      .pipe(finalize(() => this.appContent.desbloquear()))
+      .subscribe(pedido => {
+        this.pedido.update(p => ({...p, status: pedido.status}));
+        this.carregarAndamentos();
+      });
   }
 
 
