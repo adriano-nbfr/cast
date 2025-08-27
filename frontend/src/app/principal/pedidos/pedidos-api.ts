@@ -32,9 +32,10 @@ export class PedidosApi extends DsRecursoRestService<Pedido> {
   }
 
   registrarAndamento(pedido: Pedido, descricao: string, arquivos?: File[]): Observable<Andamento> {
+    // Os métodos padrão do DsRecursoRestService detectam automaticamente a presença de um File
+    // no body e convertem o objeto em um FormData antes do envio, quando necessário.
     const requestBody = arquivos && arquivos.length
-      // andamento e arquivos serão automaticamente enviados como partes de um FormData (pela presença do File)
-      ? { andamentoPedido: { descricao: descricao }, arquivos: arquivos }
+      ? { andamentoPedido: { descricao: descricao }, arquivos: arquivos } // arquivo presente
       : { descricao: descricao }; // sem arquivo, o requestBody é apenas o próprio andamento
 
     return this.enviarPost(`${pedido.id}/andamentos`, requestBody, {relativo: true});
@@ -42,6 +43,10 @@ export class PedidosApi extends DsRecursoRestService<Pedido> {
 
   suspenderPedido(pedido: Pedido): Observable<Pedido> {
     return this.enviarPatch(`${pedido.id}/suspender`, {}, {relativo: true});
+  }
+
+  fecharPedido(pedido: Pedido): Observable<Pedido> {
+    return this.enviarPatch(`${pedido.id}/fechar`, {}, {relativo: true});
   }
 
 }

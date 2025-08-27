@@ -140,6 +140,19 @@ export class PedidoEdicao {
   }
 
 
+  protected fechar() {
+    if (this.pedido().status !== 'F') {
+      this.appContent.bloquear();
+      this.pedidosApi.fecharPedido(this.pedido())
+        .pipe(finalize(() => this.appContent.desbloquear()))
+        .subscribe(pedido => {
+          this.pedido.update(p => ({...p, status: pedido.status}));
+          this.carregarAndamentos();
+        });
+    }
+  }
+
+
   protected salvarAlteracoesPedido() {
     const body = {...this.pedido(), ...this.formPedido.value} as Pedido;
 
