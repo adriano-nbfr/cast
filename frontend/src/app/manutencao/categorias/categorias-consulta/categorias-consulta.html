@@ -1,0 +1,20 @@
+<ds-crud-consulta [colunas]="colunas"
+  [consultarAoIniciar]="true"
+  [tamanhoPaginaInicial]="5"
+  [ordenacaoInicial]="{coluna: 'nome', sentido: 'asc'}"
+  [exclusaoHabilitada]="isAdmin()" >
+
+  <form dsForm bloquearSugestoes="true">
+    <ds-form-control gridClass="col-md-5">
+      <input dsFormControl type="text" ngModel name="nome" label="Nome">
+    </ds-form-control>
+
+    <ds-form-control gridClass="col-md-2">
+      <select dsFormControl ngModel name="ativo" label="Ativa">
+        <option [ngValue]="null"></option>
+        <option [ngValue]="true">Sim</option>
+        <option [ngValue]="false">Não</option>
+      </select>
+    </ds-form-control>
+  </form>
+</ds-crud-consulta>

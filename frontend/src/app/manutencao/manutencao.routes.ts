@@ -4,6 +4,12 @@ export default [
   {
     path: '',
     title: 'Manutenção',
-    loadComponent: () => import('./manutencao').then(m => m.Manutencao)
+    loadComponent: () => import('./manutencao').then(m => m.Manutencao),
+    children: [
+      {
+        path: 'categorias',
+        loadChildren: () => import('./categorias/categorias.routes')
+      }
+    ]
   }
 ] as Routes;
