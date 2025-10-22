@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { DS_RAIZ_API } from '@dsmpf/ngx-dsmpf/configuracao';
-import { Categoria } from '../shared/model/categoria';
-import { Servico } from '../shared/model/servico';
+import { Categoria } from '../../shared/model/categoria';
+import { Servico } from '../../shared/model/servico';
 
 @Injectable({
   providedIn: 'root'

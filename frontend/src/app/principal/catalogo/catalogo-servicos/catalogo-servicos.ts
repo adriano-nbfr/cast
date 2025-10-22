@@ -1,16 +1,14 @@
 import { Component, computed, input } from '@angular/core';
-import { DsCardImports } from "@dsmpf/ngx-dsmpf/conteudo/card";
-import { DsLayoutContentComponent } from "@dsmpf/ngx-dsmpf/layout/content";
-import { Servico } from '../../shared/model/servico';
 import { RouterLink } from '@angular/router';
-import { DsBotaoIconeComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes/icone';
+import { DsCardImports } from "@dsmpf/ngx-dsmpf/conteudo/card";
 import { DsBotaoComponent } from "@dsmpf/ngx-dsmpf/elementos/botoes";
+import { DsBotaoIconeComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes/icone';
+import { Servico } from '../../../shared/model/servico';
 
 @Component({
   selector: 'app-catalogo-servicos',
   imports: [
     RouterLink,
-    DsLayoutContentComponent,
     DsCardImports,
     DsBotaoIconeComponent,
     DsBotaoComponent
