@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot - CastApplication<cast>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "br.mp.mpf.cast.CastApplication",
+      "projectName": "cast",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+/target/
+/.settings/
+/.classpath
+/.project
+/.factorypath
+/.apt_generated/
+/.apt_generated_tests/
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json

@@ -1,0 +1,44 @@
+{
+  "name": "CAST",
+  "image": "dev-jdk17-angular20",
+  "updateRemoteUserUID": false,
+
+  "runArgs": [
+    "--network=host",
+    "--name=cast",
+    "--env-file=${localEnv:HOME}/ambientes/cast.env"
+  ],
+
+  "initializeCommand": "./.devcontainer/scripts/preparar-ambiente.sh dev-jdk17-angular20 cast",
+  "postCreateCommand": "./.devcontainer/scripts/post-create.sh",
+
+  "forwardPorts": [8080, 4200],
+
+  "containerEnv": {
+    "NODE_EXTRA_CA_CERTS": "${containerWorkspaceFolder}/.devcontainer/certificados/CertificadosRedeMPF.pem"
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "eamodio.gitlens",
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-lombok",
+        "vmware.vscode-boot-dev-pack",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "angular.ng-template",
+        "natewallace.angular2-inline",
+        "mariusalchimavicius.json-to-ts"
+      ]
+    }
+  },
+
+  "mounts": [
+    "source=${localEnv:HOME}/.m2,target=/home/userdesenv/.m2,type=bind,consistency=cached",
+    "source=${localWorkspaceFolder}/frontend/node_modules,target=${containerWorkspaceFolder}/frontend/node_modules,type=bind,consistency=cached"
+  ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "workspaceFolder": "/workspace"
+}
