@@ -1,9 +1,8 @@
 import { DsRecursoRest } from "@dsmpf/ngx-dsmpf/rest";
 import { Categoria } from "./categoria";
 
-export interface Servico extends DsRecursoRest {
+export interface GrupoAtendimento extends DsRecursoRest {
   nome: string;
-  descricao: string;
   ativo: boolean;
   categoria: Categoria;
 }

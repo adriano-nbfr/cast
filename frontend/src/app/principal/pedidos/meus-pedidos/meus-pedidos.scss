@@ -1,0 +1,40 @@
+.pedido {
+  display: block;
+  margin-bottom: 1.5rem;
+  cursor: default;
+  border: 1px solid rgba(120,120,120,0.2);
+  border-radius: 0.25rem
+}
+
+
+.pedido .pedido-cabecalho {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  gap: 1rem;
+  font-weight: 600;
+  background-color: rgba(130,130,130,0.1);
+}
+
+
+.pedido .pedido-numero {
+  font-size: 120%;
+  font-weight: 600;
+}
+
+
+.pedido .pedido-numero:hover,
+.pedido .pedido-numero:focus-visible {
+  text-decoration: underline !important;
+}
+
+
+.pedido .pedido-titulo {
+  font-weight: 600;
+  padding: 0.5rem 0.75rem 0;
+}
+
+
+.pedido .pedido-descricao {
+  padding: 0.75rem;
+}

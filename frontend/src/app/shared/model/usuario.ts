@@ -1,6 +1,6 @@
 import { DsRecursoRest } from "@dsmpf/ngx-dsmpf/rest";
 
-export interface Categoria extends DsRecursoRest {
+export interface Usuario extends DsRecursoRest {
   nome: string;
-  ativo: boolean;
+  email: string;
 }

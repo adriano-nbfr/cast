@@ -1,0 +1,54 @@
+<ds-conteudo>
+  <ds-conteudo-titulo icone="la-list">Meus Pedidos</ds-conteudo-titulo>
+
+  <ds-card>
+    <ds-card-header-titulo>Pedidos</ds-card-header-titulo>
+
+    <ds-card-content>
+      @if (datasource.ocupado()) {
+        <ds-placeholder tamanho="10x" espacamentoVertical="3" [quantidadeLinhas]="3"></ds-placeholder>
+      }
+      @else if (datasource.erro()) {
+        <div class="text-danger text-center p-5">
+          <p class="fs-5 fw-semibold">Ocorreu um erro ao tentar obter os pedidos.</p>
+          <p>{{datasource.erro()}}</p>
+        </div>
+      }
+      @else {
+        @for (pedido of datasource.dados(); track pedido.id) {
+          <article class="pedido">
+            <header class="pedido-cabecalho">
+              <a class="pedido-numero" href="" [routerLink]="['..', pedido.id]" target="_blank"
+                [attr.arial-label]="`Abrir o pedido nº ${pedido.id} em uma nova aba.`">
+                #{{pedido.id}}
+              </a>
+
+              <div>Urgência:
+                <span [class]="pedido.urgencia > 2 ? 'text-danger fw-semibold': ''">
+                  {{pedido.urgencia | urgenciaPedido}}
+                </span>
+
+                @if (pedido.urgencia === 4) {🔥}
+              </div>
+
+              <span [class]="pedido.status | corStatusPedido">{{pedido.status | statusPedido}}</span>
+
+              <span class="d-block">Aberto em: {{pedido.dataAbertura | date : 'dd/MM/yyy HH:mm'}}</span>
+            </header>
+
+            <div class="pedido-titulo">{{pedido.titulo}}</div>
+
+            <div class="pedido-descricao">
+              {{pedido.descricao}}
+            </div>
+          </article>
+        }
+        @empty {
+          <div class="text-center p-5">
+            <p class="fs-5 fw-semibold">Nenhum pedido encontrado.</p>
+          </div>
+        }
+      }
+    </ds-card-content>
+  </ds-card>
+</ds-conteudo>

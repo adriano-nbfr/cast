@@ -9,6 +9,15 @@ export default [
       {
         path: 'catalogo',
         loadChildren: () => import('./catalogo/catalogo.routes')
+      },
+      {
+        path: 'pedidos',
+        loadChildren: () => import('./pedidos/pedidos.routes')
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'pedidos'
       }
     ]
   }
