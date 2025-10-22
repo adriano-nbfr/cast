@@ -1,8 +1,18 @@
 import { inject } from "@angular/core";
-import { Routes } from "@angular/router";
+import { ActivatedRouteSnapshot, Routes } from "@angular/router";
 import { CatalogoApi } from "./catalogo-api";
 
 export default [
+  {
+    path: ':idCategoria',
+    title: 'Catálogo - Serviços',
+    resolve: {
+      servicos: (route: ActivatedRouteSnapshot) =>
+        inject(CatalogoApi).carregarServicos(route.params['idCategoria'])
+    },
+    loadComponent: () => import('./catalogo-servicos/catalogo-servicos')
+      .then(m => m.CatalogoServicos)
+  },
   {
     path: '',
     title: 'Catálogo - Categorias',
