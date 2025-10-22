@@ -1,12 +1,16 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideConfiguracaoBasica } from '@dsmpf/ngx-dsmpf/inicializacao';
 import { routes } from './app.routes';
+import { environment } from '../environment';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes)
+    provideConfiguracaoBasica({
+      parametrosAplicacao: environment.parametrosAplicacao,
+      parametrosSeguranca: environment.parametrosSeguranca,
+      rotas: { primeiroNivel: routes, gerarEstruturaPadrao: true }
+    })
   ]
 };

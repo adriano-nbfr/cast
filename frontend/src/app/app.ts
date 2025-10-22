@@ -1,12 +1,19 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { DsSplashComponent } from '@dsmpf/ngx-dsmpf/inicializacao/splash';
+import { DsAppNavegacao } from '@dsmpf/ngx-dsmpf/navegacao';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [
+    RouterOutlet,
+    DsSplashComponent
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('frontend');
+
+  protected appNavegacao = inject(DsAppNavegacao);
+
 }

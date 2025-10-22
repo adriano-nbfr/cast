@@ -1,0 +1,10 @@
+{
+  "/cast/api/": {
+    "target": "http://localhost:8080",
+    "secure": false
+  },
+  "/cast/logout": {
+    "target": "http://localhost:8080",
+    "secure": false
+  }
+}
