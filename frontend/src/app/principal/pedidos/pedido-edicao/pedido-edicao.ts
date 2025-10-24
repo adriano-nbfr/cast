@@ -100,7 +100,9 @@ export class PedidoEdicao implements OnInit {
 
 
   ngOnInit() {
-    this.pedido().status = 'A';
+    if (!this.pedido().id)
+      return;
+
     this.atualizarFormComPedidoCarregado();
     this.inicializarDatasourceAndamentos();
   }
