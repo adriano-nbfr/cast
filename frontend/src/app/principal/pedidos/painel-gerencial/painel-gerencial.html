@@ -1,0 +1,100 @@
+<ds-conteudo>
+  <ds-conteudo-titulo icone="la-headset">Painel Gerencial</ds-conteudo-titulo>
+
+  <ds-card>
+    <ds-card-header-titulo>Filtro</ds-card-header-titulo>
+
+    <ds-card-content>
+      <form dsForm #form="dsForm" [bloquearSugestoes]="true">
+        <ds-form-control gridClass="col-md-3">
+          <input type="text" ngModel name="dataInicial" dsFormControl label="Data inicial"
+            dsDatepicker #dataInicial="dsDatepicker" [dataMaxima]="dataFinal.dataInterna()">
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-3">
+          <input type="text" ngModel name="dataFinal" dsFormControl label="Data final"
+            dsDatepicker #dataFinal="dsDatepicker" [dataMinima]="dataInicial.dataInterna()" >
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-2">
+          <select ngModel name="urgencia" dsFormControl label="Urgência" >
+            <option [ngValue]="null"></option>
+            @for (u of opcoesUrgencia; track $index) {
+              <option [ngValue]="u">{{u | urgenciaPedido}}</option>
+            }
+          </select>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-2">
+          <select ngModel name="status" dsFormControl label="Status" >
+            <option [ngValue]="null"></option>
+            @for (s of opcoesStatus; track $index) {
+              <option [ngValue]="s">{{s | statusPedido}}</option>
+            }
+          </select>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-3">
+          <input type="text" ngModel name="idUsuarioSolicitante" dsFormControl label="Solicitante"
+            [dsAutocompletar]="buscarUsuario" atributoRotulo="nome" atributoValor="id"
+            [tamanhoMinimo]="2" [autoSelecionarUnicoItem]="true">
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-3">
+          <input type="text" ngModel name="idUsuarioAtendente" dsFormControl label="Atendente"
+            [dsAutocompletar]="buscarUsuario" tamanhoMinimo="2"
+            atributoRotulo="nome" atributoValor="id" autoSelecionarUnicoItem>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md">
+          <input type="text" ngModel name="texto" dsFormControl label="Texto">
+        </ds-form-control>
+      </form>
+    </ds-card-content>
+
+    <ds-card-footer>
+      <button ds-botao cor="auto" [disabled]="form.limpo" (click)="form.reset()">Limpar</button>
+      <button ds-botao cor="primary" (click)="consultar(form.valorBruto)">Consultar</button>
+    </ds-card-footer>
+  </ds-card>
+
+  <ds-card>
+    <ds-card-header-titulo>Pedidos</ds-card-header-titulo>
+
+    <ds-card-content>
+      <ds-datatable [dados]="datasource" [colunas]="colunas"
+        [colunasExibidas]="['id','urgencia','status','titulo','descricao',
+        'usuarioSolicitante.nome','usuarioAtendente.nome','dataAbertura']"
+        [acoesCustomizadas]="acoes">
+
+        <ng-container dsDatatableColuna="id" titulo="Número" ordenavel="true" largura="100">
+          <ng-template dsColunaCelula let-id let-pedido="dadoLinha">
+            <a [routerLink]="['..', id]" target="_blank"
+              [attr.arial-label]="`Abrir o pedido nº ${id} em uma nova aba.`">
+              <span class="text-primary fw-semibold">{{id}}</span>
+            </a>
+          </ng-template>
+        </ng-container>
+
+        <ng-container dsDatatableColuna="urgencia" titulo="Urgência" ordenavel="true" largura="120">
+          <ng-template dsColunaCelula let-urgencia>
+            <span [class]="urgencia > 2 ? 'text-danger fw-semibold': ''">
+              {{urgencia | urgenciaPedido}}
+            </span>
+
+            @if (urgencia === 4) {🔥}
+          </ng-template>
+        </ng-container>
+
+        <ng-container dsDatatableColuna="status" titulo="Status" ordenavel="true" largura="100">
+          <ng-template dsColunaCelula let-status="dadoCelula">
+            <span [class.text-decoration-line-through]="status === 'F'" [class]="status | corStatusPedido">
+              {{status | statusPedido}}
+            </span>
+          </ng-template>
+        </ng-container>
+
+      </ds-datatable>
+    </ds-card-content>
+  </ds-card>
+</ds-conteudo>
