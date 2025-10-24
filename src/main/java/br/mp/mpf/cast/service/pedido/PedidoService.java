@@ -289,6 +289,7 @@ public class PedidoService {
         pedido.setStatus(StatusPedido.F);
         pedido.setAvaliacao(avaliacao);
         pedido.setTextoFechamento(texto);
+        pedido.setDataFechamento(ZonedDateTime.now());
         pedido = pedidoRepository.save(pedido);
         registrarAndamento(pedido, "Pedido FECHADO");
         return pedido;

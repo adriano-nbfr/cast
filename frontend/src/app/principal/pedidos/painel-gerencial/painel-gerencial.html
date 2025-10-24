@@ -1,5 +1,13 @@
 <ds-conteudo>
-  <ds-conteudo-titulo icone="la-headset">Painel Gerencial</ds-conteudo-titulo>
+  <ds-conteudo-titulo icone="la-headset">
+    <div class="d-flex gap-5">
+      <span class="text-nowrap">Painel gerencial</span>
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="buscar pedido..." #numero>
+        <button ds-botao cor="auto" (click)="abrirPedido(numero.value)">Buscar</button>
+      </div>
+    </div>
+  </ds-conteudo-titulo>
 
   <ds-card>
     <ds-card-header-titulo>Filtro</ds-card-header-titulo>

@@ -23,6 +23,7 @@ import { StatusPedidoPipe } from '../../../shared/pipes/status-pedido.pipe';
 import { TiposUrgenciaPedido, UrgenciaPedidoPipe } from '../../../shared/pipes/urgencia-pedido.pipe';
 import { PedidosApi } from '../pedidos-api';
 import { finalize } from 'rxjs';
+import { DsDialogImports } from '@dsmpf/ngx-dsmpf/dialog';
 
 @Component({
   selector: 'app-pedido-edicao',
@@ -40,7 +41,8 @@ import { finalize } from 'rxjs';
     DsBotaoIconeComponent,
     DsBotaoIconeVerticalComponent,
     DsAutocompletarDirective,
-    DsUploadArquivoComponent
+    DsUploadArquivoComponent,
+    DsDialogImports
   ],
   templateUrl: './pedido-edicao.html',
   styleUrl: './pedido-edicao.scss'
@@ -98,9 +100,11 @@ export class PedidoEdicao implements OnInit {
 
 
   ngOnInit() {
+    this.pedido().status = 'A';
     this.atualizarFormComPedidoCarregado();
     this.inicializarDatasourceAndamentos();
   }
+
 
   protected atualizarFormComPedidoCarregado() {
     this.formPedido.patchValue(this.pedido());
@@ -115,6 +119,7 @@ export class PedidoEdicao implements OnInit {
       this.formPedido.controls.urgencia.enable();
   }
 
+
   private inicializarDatasourceAndamentos() {
     const idPedido = this.pedido().id ?? '';
     this.datasourceAndamentos.definirFonteDados(
@@ -125,9 +130,11 @@ export class PedidoEdicao implements OnInit {
     this.datasourceAndamentos.conectar();
   }
 
+
   protected carregarAndamentos() {
     this.datasourceAndamentos.atualizar();
   }
+
 
   protected async suspender() {
     if (this.pedido().status == 'E' || this.pedido().status == 'F')
@@ -142,6 +149,29 @@ export class PedidoEdicao implements OnInit {
       });
   }
 
+
+  protected async fechar() {
+    if (this.pedido().status === 'F')
+      return;
+
+    const confirmacao = await this.appPopup.confirmar(
+      'Você confirma o fechamento do pedido?', 'confirmar-cancelar',
+      {botaoConfirmar: 'Sim', botaoCancelar: 'Não'}
+    );
+
+    if (!confirmacao.confirmado)
+      return;
+
+    this.appContent.bloquear();
+    this.pedidosApi.fecharPedido(this.pedido())
+      .pipe(finalize(() => this.appContent.desbloquear()))
+      .subscribe(pedido => {
+        this.pedido.update(p => ({...p, status: pedido.status}));
+        this.carregarAndamentos();
+      });
+  }
+
+
   protected salvarAlteracoesPedido() {
     const body = {...this.pedido(), ...this.formPedido.value} as Pedido;
 
@@ -154,6 +184,7 @@ export class PedidoEdicao implements OnInit {
         this.carregarAndamentos();
       });
   }
+
 
   protected registrarAndamento() {
     if (!this.formAndamento.value.descricao)
@@ -169,6 +200,9 @@ export class PedidoEdicao implements OnInit {
         next: () => {
           this.formAndamento.reset();
           this.carregarAndamentos();
+
+          if (this.pedido().status === 'E')
+            this.pedido.update(p => ({...p, status: 'A'}));
         },
         error: (error) => this.appNotificacao.notificarErro(error.message)
       });

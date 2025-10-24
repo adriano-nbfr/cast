@@ -17,6 +17,14 @@
       Status: <span [class]="pedido().status | corStatusPedido">{{pedido().status | statusPedido}}</span>
     </ds-card-header-titulo>
 
+    <ds-card-header-botoes>
+      @if (pedido().status !== 'F') {
+        <button ds-botao-icone icone="la-check" hover cor="success" (click)="fechar()">
+          Fechar o pedido
+        </button>
+      }
+    </ds-card-header-botoes>
+
     <ds-card-content>
       <form dsForm [formGroup]="formPedido">
         <ds-form-control gridClass="col-md-10">
