@@ -1,0 +1,161 @@
+<ds-conteudo>
+  <ds-conteudo-titulo icone="la-headset">
+    Pedido nº <span class="text-primary fs-semibold">{{pedido().id}}</span>
+    <ds-conteudo-subtitulo>
+      {{pedido().servico.categoria.nome}} - {{pedido().servico.nome}}
+    </ds-conteudo-subtitulo>
+
+    <ds-conteudo-botoes>
+      <button ds-botao-icone-vertical icone="la-arrow-left"
+        routerLink="../painel-gerencial" >Painel
+      </button>
+    </ds-conteudo-botoes>
+  </ds-conteudo-titulo>
+
+  <ds-card>
+    <ds-card-header-titulo>
+      Status: <span [class]="pedido().status | corStatusPedido">{{pedido().status | statusPedido}}</span>
+    </ds-card-header-titulo>
+
+    <ds-card-content>
+      <form dsForm [formGroup]="formPedido">
+        <ds-form-control gridClass="col-md-10">
+          <input type="text" formControlName="titulo" dsFormControl label="Título" readonly>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-2">
+          <select formControlName="urgencia" dsFormControl label="Urgência">
+            @for (u of opcoesUrgencia; track $index) {
+              <option [ngValue]="u">{{u | urgenciaPedido}}</option>
+            }
+          </select>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-12">
+          <textarea formControlName="descricao" dsFormControl label="Descrição" rows="5" readonly>
+          </textarea>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-4">
+          <input type="text" formControlName="usuarioSolicitante" dsFormControl label="Solicitante" dsValidacaoInline
+            [dsAutocompletar]="buscarUsuario" tamanhoMinimo="2" atributoRotulo="nome" autoSelecionarUnicoItem
+            [attr.readonly]="editandoSolicitante() && pedido().status !== 'F' ? null : ''"
+            [icone]="editandoSolicitante() ? 'la-search' : ''"
+            (selecaoItem)="editandoSolicitante.set(false)" #acSolicitante>
+
+          @if (!editandoSolicitante() && pedido().status !== 'F') {
+            <button ds-botao-icone icone="la-user" hover
+              aria-label="Alterar o solicitante do pedido"
+              title="Alterar o solicitante do pedido"
+              (click)="editandoSolicitante.set(true); acSolicitante.focus()">
+            </button>
+          }
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-4">
+          <input type="text" formControlName="usuarioAtendente" dsFormControl label="Atendente"
+            [dsAutocompletar]="buscarUsuario" tamanhoMinimo="2" atributoRotulo="nome" autoSelecionarUnicoItem
+            [attr.readonly]="editandoAtendente() && pedido().status !== 'F' ? null : ''"
+            [icone]="editandoAtendente() ? 'la-search' : ''"
+            (selecaoItem)="editandoAtendente.set(false)" #acAtendente>
+
+          @if (!editandoAtendente() && pedido().status !== 'F') {
+            <button ds-botao-icone icone="la-user" hover
+              aria-label="Atribuir um atendente ao pedido"
+              title="Atribuir um atendente ao pedido"
+              (click)="editandoAtendente.set(true); acAtendente.focus()">
+            </button>
+          }
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-4">
+          <input type="text" formControlName="grupoAtendimento" dsFormControl label="Grupo de atendimento" dsValidacaoInline
+            [dsAutocompletar]="buscarGrupo" tamanhoMinimo="2" atributoRotulo="nome" autoSelecionarUnicoItem
+            [attr.readonly]="editandoGrupo() && pedido().status !== 'F' ? null : ''"
+            [icone]="editandoGrupo() ? 'la-search' : ''"
+            (selecaoItem)="editandoGrupo.set(false)" #acGrupo>
+
+          @if (!editandoGrupo() && pedido().status !== 'F') {
+            <button ds-botao-icone icone="la-users" hover
+              aria-label="Alterar o grupo de atendimento"
+              title="Alterar o grupo de atendimento"
+              (click)="editandoGrupo.set(true); acGrupo.focus()">
+            </button>
+          }
+        </ds-form-control>
+      </form>
+    </ds-card-content>
+
+    @if (pedido().status !== 'F') {
+      <ds-card-footer>
+        <button ds-botao cor="auto" [disabled]="!formPedido.dirty"
+          (click)="atualizarFormComPedidoCarregado()">Restaurar</button>
+
+        <button ds-botao cor="primary" [disabled]="formPedido.invalid || !formPedido.dirty"
+          (click)="salvarAlteracoesPedido()">Salvar alterações</button>
+      </ds-card-footer>
+    }
+  </ds-card>
+
+  @if (pedido().status !== 'F') {
+    <ds-card [recolhivel]="true" [recolherInicialmente]="true" #cardNovoAndamento>
+      <ds-card-header-titulo>Adicionar andamento</ds-card-header-titulo>
+
+      <ds-card-content>
+        <form dsForm [formGroup]="formAndamento">
+          <ds-form-control gridClass="col-12">
+            <textarea formControlName="descricao" dsFormControl label="Descrição" rows="3" dsValidacaoInline>
+            </textarea>
+          </ds-form-control>
+
+          <ds-form-control gridClass="col-md-6">
+            <ds-upload-arquivo formControlName="arquivos" dsFormControl label="Arquivos anexos"
+              [multiplos]="true" tiposAceitos="application/pdf, image/*"
+              quantidadeMaxima="5" tamanhoMaximo="1MB" tamanhoTotalMaximo="5MB">
+            </ds-upload-arquivo>
+          </ds-form-control>
+        </form>
+      </ds-card-content>
+
+      @if (cardNovoAndamento.conteudoExpandido) {
+        <ds-card-footer>
+          <button ds-botao cor="primary" [disabled]="formAndamento.invalid || !formAndamento.dirty"
+            (click)="registrarAndamento()">Registrar andamento</button>
+        </ds-card-footer>
+      }
+    </ds-card>
+  }
+
+  <ds-card>
+    <ds-card-header-titulo>Andamentos</ds-card-header-titulo>
+
+    <ds-card-header-botoes>
+      @if (pedido().status !== 'F') {
+        <button ds-botao-icone icone="la-clock" hover cor="danger"
+          [disabled]="pedido().status === 'E'" (click)="suspender()">
+          Suspender
+        </button>
+      }
+    </ds-card-header-botoes>
+
+    <ds-card-content>
+      <ds-datatable [dados]="datasourceAndamentos"
+        [colunas]="colunas" [colunasExibidas]="['descricao','usuario.nome','dataRegistro']">
+
+        <ng-container dsDatatableColuna="descricao" titulo="Descrição do andamento">
+          <ng-template dsColunaCelula let-andamento="dadoLinha">
+            @if (andamento.idArquivoAnexo) {
+              <a ds-botao-icone cor="primary" icone="la-file" title="visualizar o arquivo em uma nova aba"
+                href="{{raizApi}}/pedidos/{{pedido().id}}/andamentos/{{andamento.id}}/arquivos/{{andamento.idArquivoAnexo}}"
+                target="_blank"><span class="ms-2">{{andamento.descricao}}</span></a>
+            }
+            @else {
+              {{andamento.descricao}}
+            }
+          </ng-template>
+        </ng-container>
+      </ds-datatable>
+    </ds-card-content>
+  </ds-card>
+
+</ds-conteudo>

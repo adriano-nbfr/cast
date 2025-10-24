@@ -23,8 +23,26 @@ export default [
     title: 'Novo pedido',
     loadComponent: () => import('./novo-pedido/novo-pedido').then(m => m.NovoPedido),
     resolve: {
-      novoPedido: (activatedRoute: ActivatedRouteSnapshot) =>
-        inject(PedidosApi).obterNovoPedido(activatedRoute.queryParams['idServico'])
+      novoPedido: (activatedRoute: ActivatedRouteSnapshot) => {
+        // const appNotificacao = inject(DsAppNotificacao);
+        const pedidosApi = inject(PedidosApi);
+
+        return pedidosApi.obterNovoPedido(activatedRoute.queryParams['idServico']);
+          // .pipe(catchError((error: DsHttpError) => {
+          //   // const router = inject(Router);
+          //   appNotificacao.notificarErro(error.message);
+          //   return EMPTY;
+          // }));
+      }
+    }
+  },
+  {
+    path: ':idPedido',
+    title: 'Pedido',
+    loadComponent: () => import('./pedido-edicao/pedido-edicao').then(m => m.PedidoEdicao),
+    resolve: {
+      pedido: (activatedRoute: ActivatedRouteSnapshot) =>
+        inject(PedidosApi).obter(activatedRoute.params['idPedido'])
     }
   },
   {
