@@ -1,7 +1,8 @@
 import { inject } from "@angular/core";
-import { Routes } from "@angular/router";
+import { ActivatedRouteSnapshot, Routes } from "@angular/router";
 import { DsAppSeguranca } from "@dsmpf/ngx-dsmpf/seguranca";
 import { environment } from "../../../environment";
+import { PedidosApi } from "./pedidos-api";
 
 export default [
   {
@@ -16,6 +17,15 @@ export default [
     canMatch: [
       () => inject(DsAppSeguranca).isUsuarioAutorizadoAssincrono(environment.papeis.PAPEL_ATENDENTE, true)
     ]
+  },
+  {
+    path: 'novo',
+    title: 'Novo pedido',
+    loadComponent: () => import('./novo-pedido/novo-pedido').then(m => m.NovoPedido),
+    resolve: {
+      novoPedido: (activatedRoute: ActivatedRouteSnapshot) =>
+        inject(PedidosApi).obterNovoPedido(activatedRoute.queryParams['idServico'])
+    }
   },
   {
     path: '',

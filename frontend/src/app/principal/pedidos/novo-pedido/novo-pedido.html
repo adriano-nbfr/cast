@@ -1,0 +1,60 @@
+@let servico = novoPedido()?.servico;
+
+<ds-conteudo>
+  <ds-conteudo-titulo icone="la-file-medical">
+    Novo pedido
+    <ds-conteudo-subtitulo>
+      @if (servico) {
+        {{servico.categoria.nome}} - {{servico.nome}}
+      }
+      @else {
+        <span class="text-danger">Serviço não informado</span>
+      }
+    </ds-conteudo-subtitulo>
+  </ds-conteudo-titulo>
+
+  <ds-card>
+    <ds-card-header-titulo>Dados do pedido</ds-card-header-titulo>
+
+    <ds-card-content>
+      <form dsForm [formGroup]="formPedido" [bloquearSugestoes]="true">
+        <ds-form-control gridClass="col-12">
+          <input type="text" formControlName="titulo" dsFormControl label="Título" dsValidacaoInline>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-12"
+          [mensagemValidacao]="{'minlength.requiredLength': 'Seja descritivo o suficiente, escreva no mínimo :VALOR_REF caracteres'}">
+          <textarea formControlName="descricao" dsFormControl label="Descrição" dsValidacaoInline
+            rows="4" placeholder="Informe aqui uma descrição detalhada do seu pedido">
+          </textarea>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-2">
+          <select formControlName="urgencia" dsFormControl label="Urgência" >
+            <option [ngValue]="null"></option>
+            @for (u of opcoesUrgencia; track $index) {
+              <option [ngValue]="u">{{u | urgenciaPedido}}</option>
+            }
+          </select>
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-4">
+          <input type="text" formControlName="usuarioSolicitante" dsFormControl label="Solicitante" dsValidacaoInline
+            [dsAutocompletar]="buscarUsuario" tamanhoMinimo="2" atributoRotulo="nome" autoSelecionarUnicoItem >
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-md-6">
+          <input type="text" formControlName="grupoAtendimento" dsFormControl label="Grupo de atendimento"
+            [dsAutocompletar]="buscarGrupo" tamanhoMinimo="2" atributoRotulo="nome" autoSelecionarUnicoItem >
+        </ds-form-control>
+      </form>
+    </ds-card-content>
+
+    <ds-card-footer>
+      <button ds-botao cor="primary"
+        [disabled]="formPedido.invalid || !servico" (click)="registrar()">
+        Registrar o pedido
+      </button>
+    </ds-card-footer>
+  </ds-card>
+</ds-conteudo>
