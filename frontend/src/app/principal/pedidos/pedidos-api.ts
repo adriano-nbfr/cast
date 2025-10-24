@@ -18,7 +18,11 @@ export class PedidosApi extends DsRecursoRestService<Pedido> {
     return new DsDatasourceRest<Pedido>(`${this.endpointApi}/meusPedidos`, this.consultaStrategy);
   }
 
-    obterNovoPedido(idServico: number): Observable<Pedido> {
+  obterDatasourcePainelGerencial() {
+    return new DsDatasourceRest<Pedido>(`${this.endpointApi}`, this.consultaStrategy);
+  }
+
+  obterNovoPedido(idServico: number): Observable<Pedido> {
     return this.obterRecursoAuxiliar(`pedidos/novo?idServico=${idServico}`);
   }
 
