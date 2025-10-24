@@ -35,8 +35,7 @@ public class SecurityConfiguration  {
 			customizer
                 .antMatchers("/api/catalogo/**", "/api/pedidos/**").authenticated()
                 .antMatchers("/api/manutencao/**").hasAnyAuthority(AuthoritiesConstants.PAPEL_GERENTE)
-                .antMatchers("/api/public/**", "/frontend/**").permitAll() // endpoints públicos da API e arquivos estáticos
-                .antMatchers("/", "/home", "/publico/**").permitAll(); // rotas específicas do frontend que não requerem autenticação
+                .antMatchers("/api/public/**", "/frontend/**").permitAll(); // endpoints públicos da API e arquivos estáticos
 		};
     }
 
