@@ -33,7 +33,7 @@ export class ServicosConsulta {
     {
       id: 'ativo',
       ordenavel: true,
-      titulo: 'Ativa',
+      titulo: 'Ativo',
       largura: '100',
       traducaoBoolean: {valorTrue: 'Sim', valorFalse: 'Não'}
     }

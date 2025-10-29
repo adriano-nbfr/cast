@@ -2,14 +2,16 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DsCrudImports } from '@dsmpf/ngx-dsmpf/crud';
 import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
+import { CategoriasServicos } from "./categorias-servicos/categorias-servicos";
 
 @Component({
   selector: 'app-categorias-edicao',
   imports: [
     ReactiveFormsModule,
     DsFormImports,
-    DsCrudImports
-  ],
+    DsCrudImports,
+    CategoriasServicos
+],
   templateUrl: './categorias-edicao.html',
   styleUrl: './categorias-edicao.scss'
 })

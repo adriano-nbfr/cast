@@ -1,0 +1,20 @@
+<ds-crud-edicao-detalhe endpoint="servicos" endpointRelativo="true"
+  [textoRecurso]="textos"
+  [colunas]="colunas"
+  [ordenacaoInicial]="{coluna: 'nome', sentido: 'asc'}"
+  [tamanhoPaginaInicial]="5"
+  [permitirExclusaoEmLote]="true"
+  tituloDatatable="Serviços vinculados a esta categoria"
+  [tratamentoSalvar]="tratamentoSalvar" >
+
+  <form dsForm [formGroup]="formServico" [bloquearSugestoes]="true">
+    <ds-form-control gridClass="col-lg-6">
+      <input type="text" formControlName="nome" dsFormControl label="Nome" dsValidacaoInline />
+    </ds-form-control>
+
+    <ds-form-control gridClass="col-md-2">
+      <input type="checkbox" formControlName="ativo" dsFormControl label="Ativo" />
+    </ds-form-control>
+  </form>
+
+</ds-crud-edicao-detalhe>

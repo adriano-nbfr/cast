@@ -1,4 +1,4 @@
-<ds-crud-edicao [focoAutomaticoAposIncluir]="true">
+<ds-crud-edicao [focoAutomaticoAposIncluir]="true" #crudEdicao>
 
   <form dsForm [formGroup]="formCategoria">
     <ds-form-control gridClass="col-md-10 col-lg-4">
@@ -15,5 +15,10 @@
         dica="Indica se a categoria está disponível no catálogo" >
     </ds-form-control>
   </form>
+
+  <!-- Serviços vinculados à categoria -->
+  <ng-template dsCrudEdicaoDetalhe titulo="Serviços">
+    <app-categorias-servicos [categoria]="crudEdicao.recurso()"></app-categorias-servicos>
+  </ng-template>
 
 </ds-crud-edicao>
