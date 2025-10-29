@@ -1,17 +1,17 @@
 import { Component, computed, inject } from '@angular/core';
-import { DsCrudConsultaComponent } from '@dsmpf/ngx-dsmpf/crud';
-import { DsDatatableColunaDef } from '@dsmpf/ngx-dsmpf/datasource/datatable';
-import { Categoria } from '../../../shared/model/categoria';
-import { DsAppSeguranca } from '@dsmpf/ngx-dsmpf/seguranca';
 import { FormsModule } from '@angular/forms';
+import { DsCrudImports } from '@dsmpf/ngx-dsmpf/crud';
+import { DsDatatableColunaDef } from '@dsmpf/ngx-dsmpf/datasource/datatable';
 import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
+import { DsAppSeguranca } from '@dsmpf/ngx-dsmpf/seguranca';
+import { Categoria } from '../../../shared/model/categoria';
 
 @Component({
   selector: 'app-categorias-consulta',
   imports: [
     FormsModule,
     DsFormImports,
-    DsCrudConsultaComponent
+    DsCrudImports
   ],
   templateUrl: './categorias-consulta.html',
   styleUrl: './categorias-consulta.scss'
