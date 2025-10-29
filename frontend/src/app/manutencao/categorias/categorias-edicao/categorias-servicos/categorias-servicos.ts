@@ -44,13 +44,13 @@ export class CategoriasServicos {
 
   protected colunas: DsDatatableColunaDef<Servico>[] = [
     { id: 'nome', ordenavel: true, titulo: 'Nome' },
-    {
-      id: 'ativo',
-      ordenavel: true,
-      titulo: 'Ativo',
-      largura: '100',
-      traducaoBoolean: {valorTrue: 'Sim', valorFalse: 'Não'}
-    }
+    // {
+    //   id: 'ativo',
+    //   ordenavel: true,
+    //   titulo: 'Ativo',
+    //   largura: '100',
+    //   traducaoBoolean: {valorTrue: 'Sim', valorFalse: 'Não'}
+    // }
   ];
 
   protected acoesDatatable: DsDatatableAcaoDef<Servico>[] = [
@@ -80,6 +80,15 @@ export class CategoriasServicos {
     return {...valor, categoria} as Servico;
   };
 
+
+  protected inverterStatusServico(servico: Servico, event: Event) {
+    event.preventDefault();
+
+    this.crudDetalhe().datatable().processarAcaoAvulsa({
+      funcao: () => this.alterarStatusServico(servico, !servico.ativo),
+      recarregar: true
+    });
+  }
 
   private alterarStatusServico(servico: Servico, ativo: boolean) {
     return this.crudDetalhe().service.alterar({...servico, ativo});

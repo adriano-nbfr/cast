@@ -18,4 +18,13 @@
     </ds-form-control>
   </form>
 
+
+  <ng-container dsDatatableColuna="ativo" titulo="Ativo" largura="100" [ordenavel]="true">
+    <ng-template dsColunaCelula let-servico="dadoLinha">
+      <input type="checkbox" aria-label="Ativo" dsFormSwitch
+        [checked]="servico.ativo" [id]="`swAtivo-${servico.id}`"
+        (click)="inverterStatusServico(servico, $event)" >
+    </ng-template>
+  </ng-container>
+
 </ds-crud-edicao-detalhe>
