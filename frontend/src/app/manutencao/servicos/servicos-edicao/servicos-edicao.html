@@ -1,0 +1,33 @@
+
+<ds-crud-edicao
+  [tratamentoCarregar]="tratamentoCarregar"
+  [tratamentoSalvar]="tratamentoSalvar">
+
+  <form dsForm [formGroup]="formServicos">
+
+    <ds-form-control gridClass="col-md-4" mensagemValidacao="É necessário escolher uma categoria">
+      <select dsFormControl type="text" formControlName="idCategoria" label="Categoria" dsValidacaoInline>
+        @for (categoria of listagemCategorias(); track categoria.id) {
+          <option [ngValue]="categoria.id">{{categoria.nome}}</option>
+        }
+      </select>
+    </ds-form-control>
+
+    <ds-form-control gridClass="col-md-8">
+      <input dsFormControl type="text" formControlName="nome" label="Nome" />
+    </ds-form-control>
+
+    <ds-form-control gridClass="col-md-10">
+      <input dsFormControl type="text" formControlName="descricao" label="Descrição"
+      dica="Uma descrição mais detalhada das demandas atendidas por este serviço" />
+    </ds-form-control>
+
+    <ds-form-control gridClass="col-md-2">
+      <input type="checkbox" formControlName="ativo" dsFormControl label="Ativo"
+        dsFormSwitch posicaoSwitch="antes"
+        dica="Indica se o serviço está disponível no catálogo">
+    </ds-form-control>
+
+  </form>
+
+</ds-crud-edicao>

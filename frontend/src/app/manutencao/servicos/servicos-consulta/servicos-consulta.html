@@ -1,0 +1,30 @@
+<ds-crud-consulta [colunas]="colunas"
+  [tamanhoPaginaInicial]="5"
+  [exclusaoHabilitada]="isGerente()"
+  [permitirExclusaoEmLote]="true">
+
+  <form dsForm [bloquearSugestoes]="true">
+    <ds-form-control gridClass="col-md-12 col-lg-4">
+      <select dsFormControl ngModel name="idCategoria" label="Categoria">
+        <option [ngValue]="null"></option>
+
+        @for (categoria of listagemCategorias(); track categoria.id) {
+          <option [ngValue]="categoria.id">{{categoria.nome}}</option>
+        }
+      </select>
+    </ds-form-control>
+
+    <ds-form-control gridClass="col-md-10 col-lg-4">
+      <input type="text" ngModel name="nome" dsFormControl label="Nome">
+    </ds-form-control>
+
+    <ds-form-control gridClass="col-md-2">
+      <select ngModel name="ativo" dsFormControl label="Ativo">
+        <option [ngValue]="null"></option>
+        <option [ngValue]="true">Sim</option>
+        <option [ngValue]="">Não</option>
+      </select>
+    </ds-form-control>
+  </form>
+
+</ds-crud-consulta>

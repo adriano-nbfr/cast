@@ -9,6 +9,10 @@ export default [
       {
         path: 'categorias',
         loadChildren: () => import('./categorias/categorias.routes')
+      },
+      {
+        path: 'servicos',
+        loadChildren: () => import('./servicos/servicos.routes')
       }
     ]
   }
