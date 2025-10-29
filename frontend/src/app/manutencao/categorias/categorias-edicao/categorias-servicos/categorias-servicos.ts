@@ -1,11 +1,11 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DsCrudImports, DsCrudTextoRecurso } from '@dsmpf/ngx-dsmpf/crud';
-import { DsDatatableColunaDef, DsDatatableImports } from '@dsmpf/ngx-dsmpf/datasource/datatable';
+import { DsCrudEdicaoDetalheComponent, DsCrudImports, DsCrudTextoRecurso } from '@dsmpf/ngx-dsmpf/crud';
+import { DsDatatableAcaoDef, DsDatatableColunaDef, DsDatatableImports } from '@dsmpf/ngx-dsmpf/datasource/datatable';
 import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
 import { DsFormSwitchDirective } from '@dsmpf/ngx-dsmpf/form/switch';
-import { Servico } from '../../../../shared/model/servico';
 import { Categoria } from '../../../../shared/model/categoria';
+import { Servico } from '../../../../shared/model/servico';
 
 @Component({
   selector: 'app-categorias-servicos',
@@ -22,6 +22,9 @@ import { Categoria } from '../../../../shared/model/categoria';
 export class CategoriasServicos {
 
   categoria = input.required<Categoria>();
+
+  private crudDetalhe = viewChild.required(DsCrudEdicaoDetalheComponent<Servico>);
+
 
   private fb = inject(FormBuilder);
 
@@ -50,10 +53,36 @@ export class CategoriasServicos {
     }
   ];
 
+  protected acoesDatatable: DsDatatableAcaoDef<Servico>[] = [
+    {
+      id: 'ativar',
+      descricao: 'Ativar o serviço',
+      icone: 'la-check',
+      cor: 'success',
+      recarregar: true,
+      funcao: (servico) => this.alterarStatusServico(servico, true),
+      ocultar: (servico) => servico.ativo
+    },
+    {
+      id: 'desativar',
+      descricao: 'Destivar o serviço',
+      icone: 'la-ban',
+      cor: 'danger',
+      recarregar: true,
+      funcao: (servico) => this.alterarStatusServico(servico, false),
+      ocultar: (servico) => !servico.ativo
+    }
+  ];
+
 
   protected tratamentoSalvar = (valor: any) => {
     const categoria = this.categoria();
     return {...valor, categoria} as Servico;
   };
+
+
+  private alterarStatusServico(servico: Servico, ativo: boolean) {
+    return this.crudDetalhe().service.alterar({...servico, ativo});
+  }
 
 }
