@@ -1,22 +1,23 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { DsAppNotificacao } from '@dsmpf/ngx-dsmpf/basico';
 import { DsConteudoImports } from '@dsmpf/ngx-dsmpf/conteudo';
 import { DsCardImports } from '@dsmpf/ngx-dsmpf/conteudo/card';
 import { DsBotaoComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes';
 import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
 import { DsAutocompletarDirective } from '@dsmpf/ngx-dsmpf/form/autocompletar';
-import { TiposUrgenciaPedido, UrgenciaPedidoPipe } from '../../../shared/pipes/urgencia-pedido.pipe';
-import { Pedido } from '../../../shared/model/pedido';
-import { PedidosApi } from '../pedidos-api';
-import { Router } from '@angular/router';
-import { GrupoAtendimento } from '../../../shared/model/grupo-atendimento';
-import { Usuario } from '../../../shared/model/usuario';
 import { DsAppContent } from '@dsmpf/ngx-dsmpf/layout/content';
 import { finalize } from 'rxjs';
-import { DsAppNotificacao } from '@dsmpf/ngx-dsmpf/basico';
+import { GrupoAtendimento } from '../../../shared/model/grupo-atendimento';
+import { Pedido } from '../../../shared/model/pedido';
+import { Usuario } from '../../../shared/model/usuario';
+import { TiposUrgenciaPedido, UrgenciaPedidoPipe } from '../../../shared/pipes/urgencia-pedido.pipe';
+import { PedidosApi } from '../pedidos-api';
 
 @Component({
   selector: 'app-novo-pedido',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     DsConteudoImports,

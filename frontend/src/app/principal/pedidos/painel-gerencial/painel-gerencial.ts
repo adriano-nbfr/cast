@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { DsConteudoImports } from '@dsmpf/ngx-dsmpf/conteudo';
@@ -17,6 +17,7 @@ import { PedidosApi } from '../pedidos-api';
 
 @Component({
   selector: 'app-painel-gerencial',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     RouterLink,

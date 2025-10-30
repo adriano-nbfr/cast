@@ -23,7 +23,8 @@
 
       <ds-card-header-botoes>
         @if (pedidoModel.status !== 'F') {
-          <button ds-botao-icone icone="la-check" hover cor="success" (click)="fechar()">
+          <button ds-botao-icone icone="la-check" hover cor="success"
+            (click)="formFechar.reset(); dialogFechar.exibir()">
             Fechar o pedido
           </button>
         }
@@ -169,6 +170,31 @@
         </ds-datatable>
       </ds-card-content>
     </ds-card>
+
+    <!-- Diálogo de fechamento do pedido -->
+    <ds-dialog #dialogFechar tamanho="md">
+      <ds-dialog-header-titulo>Fechar o pedido</ds-dialog-header-titulo>
+
+      <form dsForm [formGroup]="formFechar">
+        <ds-form-control gridClass="col-12" label="Avaliação do atendimento">
+          <input type="radio" formControlName="avaliacao" [value]="0" dsFormControl label="Péssimo">
+          <input type="radio" formControlName="avaliacao" [value]="1" dsFormControl label="Ruim">
+          <input type="radio" formControlName="avaliacao" [value]="2" dsFormControl label="Regular">
+          <input type="radio" formControlName="avaliacao" [value]="3" dsFormControl label="Bom">
+          <input type="radio" formControlName="avaliacao" [value]="4" dsFormControl label="Ótimo">
+        </ds-form-control>
+
+        <ds-form-control gridClass="col-12" contagemCaracteres="crescente">
+          <textarea formControlName="texto" rows="3"
+            dsFormControl label="Observação (opcional)" labelInterno="true"></textarea>
+        </ds-form-control>
+      </form>
+
+      <ds-dialog-footer>
+        <button ds-botao (click)="dialogFechar.fechar()">Cancelar</button>
+        <button ds-botao cor="primary" (click)="fecharPedido(); dialogFechar.fechar()">Fechar o pedido</button>
+      </ds-dialog-footer>
+    </ds-dialog>
   </ds-conteudo>
 }
 @else {

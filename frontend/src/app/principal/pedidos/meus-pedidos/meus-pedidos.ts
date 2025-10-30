@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DsConteudoImports } from '@dsmpf/ngx-dsmpf/conteudo';
 import { DsCardImports } from '@dsmpf/ngx-dsmpf/conteudo/card';
@@ -11,6 +11,7 @@ import { PedidosApi } from '../pedidos-api';
 
 @Component({
   selector: 'app-meus-pedidos',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
     DsConteudoImports,

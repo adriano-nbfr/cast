@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DsLayoutContentComponent } from '@dsmpf/ngx-dsmpf/layout/content';
 import { DsMenu } from '@dsmpf/ngx-dsmpf/menu';
@@ -8,6 +8,7 @@ import { environment } from '../../environment';
 
 @Component({
   selector: 'app-principal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterOutlet,
     DsLayoutContentComponent,

@@ -1,14 +1,15 @@
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DsLayoutContentComponent } from '@dsmpf/ngx-dsmpf/layout/content';
 import { DsLayoutModuloComponent } from '@dsmpf/ngx-dsmpf/layout/modulo';
+import { DsMenu } from '@dsmpf/ngx-dsmpf/menu';
 import { DsMenuPrincipalComponent } from '@dsmpf/ngx-dsmpf/menu/principal';
 import { DsAppSeguranca } from '@dsmpf/ngx-dsmpf/seguranca';
 import { environment } from '../../environment';
-import { DsMenu } from '@dsmpf/ngx-dsmpf/menu';
 
 @Component({
   selector: 'app-manutencao',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterOutlet,
     DsLayoutModuloComponent,

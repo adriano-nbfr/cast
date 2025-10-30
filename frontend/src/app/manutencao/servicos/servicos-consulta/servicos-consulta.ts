@@ -1,15 +1,16 @@
-import { Component, computed, inject, input } from '@angular/core';
-import { DsDatatableColunaDef } from '@dsmpf/ngx-dsmpf/datasource/datatable';
-import { Servico } from '../../../shared/model/servico';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DsCrudImports } from '@dsmpf/ngx-dsmpf/crud';
+import { DsDatatableColunaDef } from '@dsmpf/ngx-dsmpf/datasource/datatable';
 import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
-import { Categoria } from '../../../shared/model/categoria';
 import { DsAppSeguranca } from '@dsmpf/ngx-dsmpf/seguranca';
 import { environment } from '../../../../environment';
+import { Categoria } from '../../../shared/model/categoria';
+import { Servico } from '../../../shared/model/servico';
 
 @Component({
   selector: 'app-servicos-consulta',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     DsCrudImports,

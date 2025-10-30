@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { DsRecursoRestService } from '@dsmpf/ngx-dsmpf/rest';
-import { Pedido } from '../../shared/model/pedido';
 import { DsDatasourceRest } from '@dsmpf/ngx-dsmpf/datasource';
+import { DsRecursoRestService } from '@dsmpf/ngx-dsmpf/rest';
 import { Observable } from 'rxjs';
 import { Andamento } from '../../shared/model/andamento';
+import { Pedido } from '../../shared/model/pedido';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +45,9 @@ export class PedidosApi extends DsRecursoRestService<Pedido> {
     return this.enviarPatch(`${pedido.id}/suspender`, {}, {relativo: true});
   }
 
-  fecharPedido(pedido: Pedido): Observable<Pedido> {
-    return this.enviarPatch(`${pedido.id}/fechar`, {}, {relativo: true});
+  fecharPedido(pedido: Pedido, feedback?: {avaliacao: number, texto: string}): Observable<Pedido> {
+
+    return this.enviarPatch(`${pedido.id}/fechar`, feedback ?? {}, {relativo: true});
   }
 
 }

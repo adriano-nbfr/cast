@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DsCardImports } from "@dsmpf/ngx-dsmpf/conteudo/card";
 import { DsBotaoComponent } from "@dsmpf/ngx-dsmpf/elementos/botoes";
@@ -7,6 +7,7 @@ import { Servico } from '../../../shared/model/servico';
 
 @Component({
   selector: 'app-catalogo-servicos',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
     DsCardImports,

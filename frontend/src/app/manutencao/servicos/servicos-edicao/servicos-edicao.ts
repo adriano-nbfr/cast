@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DsCardImports } from '@dsmpf/ngx-dsmpf/conteudo/card';
 import { DsCrudImports } from '@dsmpf/ngx-dsmpf/crud';
@@ -9,6 +9,7 @@ import { Servico } from '../../../shared/model/servico';
 
 @Component({
   selector: 'app-servicos-edicao',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     DsCardImports,

@@ -1,4 +1,4 @@
-import { Component, inject, input, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DsCrudEdicaoDetalheComponent, DsCrudImports, DsCrudTextoRecurso } from '@dsmpf/ngx-dsmpf/crud';
 import { DsDatatableAcaoDef, DsDatatableColunaDef, DsDatatableImports } from '@dsmpf/ngx-dsmpf/datasource/datatable';
@@ -9,6 +9,7 @@ import { Servico } from '../../../../shared/model/servico';
 
 @Component({
   selector: 'app-categorias-servicos',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     DsFormImports,

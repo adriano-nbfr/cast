@@ -1,4 +1,4 @@
-import { Component, inject, model, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, model, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { DsUploadArquivoComponent } from '@dsmpf/ngx-dsmpf/arquivo';
@@ -8,12 +8,14 @@ import { DsConteudoImports } from '@dsmpf/ngx-dsmpf/conteudo';
 import { DsCardImports } from '@dsmpf/ngx-dsmpf/conteudo/card';
 import { DsDatasourceMemoria } from '@dsmpf/ngx-dsmpf/datasource';
 import { DsDatatableColunaDef, DsDatatableImports } from '@dsmpf/ngx-dsmpf/datasource/datatable';
+import { DsDialogImports } from '@dsmpf/ngx-dsmpf/dialog';
 import { DsBotaoComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes';
 import { DsBotaoIconeComponent, DsBotaoIconeVerticalComponent } from '@dsmpf/ngx-dsmpf/elementos/botoes/icone';
 import { DsFormImports } from '@dsmpf/ngx-dsmpf/form';
 import { DsAutocompletarDirective } from '@dsmpf/ngx-dsmpf/form/autocompletar';
 import { DsAppContent } from '@dsmpf/ngx-dsmpf/layout/content';
 import { DsAppPopup } from '@dsmpf/ngx-dsmpf/popup';
+import { finalize } from 'rxjs';
 import { Andamento } from '../../../shared/model/andamento';
 import { GrupoAtendimento } from '../../../shared/model/grupo-atendimento';
 import { Pedido } from '../../../shared/model/pedido';
@@ -22,11 +24,10 @@ import { CorStatusPedidoPipe } from '../../../shared/pipes/cor-status-pedido.pip
 import { StatusPedidoPipe } from '../../../shared/pipes/status-pedido.pipe';
 import { TiposUrgenciaPedido, UrgenciaPedidoPipe } from '../../../shared/pipes/urgencia-pedido.pipe';
 import { PedidosApi } from '../pedidos-api';
-import { finalize } from 'rxjs';
-import { DsDialogImports } from '@dsmpf/ngx-dsmpf/dialog';
 
 @Component({
   selector: 'app-pedido-edicao',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     RouterLink,
@@ -85,6 +86,11 @@ export class PedidoEdicao implements OnInit {
   protected formAndamento = this.fb.group({
     descricao: this.fb.control('', {validators: [Validators.required, Validators.minLength(20)]}),
     arquivos: this.fb.control<File[]>([], {nonNullable: true}),
+  });
+
+  protected formFechar = this.fb.group({
+    avaliacao: this.fb.control<number>(4, {nonNullable: true}),
+    texto: this.fb.control('', {nonNullable: true, validators: [Validators.maxLength(1000)]}),
   });
 
   protected buscarGrupo = this.pedidosApi
@@ -152,20 +158,12 @@ export class PedidoEdicao implements OnInit {
   }
 
 
-  protected async fechar() {
+  protected async fecharPedido() {
     if (this.pedido().status === 'F')
       return;
 
-    const confirmacao = await this.appPopup.confirmar(
-      'Você confirma o fechamento do pedido?', 'confirmar-cancelar',
-      {botaoConfirmar: 'Sim', botaoCancelar: 'Não'}
-    );
-
-    if (!confirmacao.confirmado)
-      return;
-
     this.appContent.bloquear();
-    this.pedidosApi.fecharPedido(this.pedido())
+    this.pedidosApi.fecharPedido(this.pedido(), this.formFechar.getRawValue())
       .pipe(finalize(() => this.appContent.desbloquear()))
       .subscribe(pedido => {
         this.pedido.update(p => ({...p, status: pedido.status}));
