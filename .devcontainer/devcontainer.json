@@ -1,6 +1,6 @@
 {
   "name": "CAST",
-  "image": "dev-jdk17-angular20",
+  "image": "dev-jdk21-angular20",
   "updateRemoteUserUID": false,
 
   "runArgs": [
@@ -9,7 +9,7 @@
     "--env-file=${localEnv:HOME}/ambientes/cast.env"
   ],
 
-  "initializeCommand": "./.devcontainer/scripts/preparar-ambiente.sh dev-jdk17-angular20 cast",
+  "initializeCommand": "./.devcontainer/scripts/preparar-ambiente.sh dev-jdk21-angular20 cast",
   "postCreateCommand": "./.devcontainer/scripts/post-create.sh",
 
   "forwardPorts": [8080, 4200],

@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "dist",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js",
@@ -45,11 +46,12 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/cast/frontend/",
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1MB",
-                  "maximumError": "2MB"
+                  "maximumWarning": "1500kb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -121,6 +123,7 @@
   "cli": {
     "schematicCollections": [
       "angular-eslint"
-    ]
+    ],
+    "analytics": false
   }
 }

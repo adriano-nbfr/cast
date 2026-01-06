@@ -92,7 +92,7 @@ export class PainelGerencial implements OnInit, OnDestroy {
     if (!id || typeof id === 'string' && isNaN(parseInt(id)))
       return;
 
-    const url = this.router.serializeUrl(this.router.createUrlTree([`/pedidos/${id}`]));
+    const url = this.router.serializeUrl(this.router.createUrlTree([`/cast/pedidos/${id}`]));
     window.open(url, '_blank');
   }
 

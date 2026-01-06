@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR=$(dirname $(realpath $0));
-WORKSPACE_DIR="$(realpath ${SCRIPT_DIR}/../..)";
+WORKSPACE_DIR="$(realpath ${SCRIPT_DIR}/..)";
 TARGET_DIR="${WORKSPACE_DIR}/target/classes/static";
 FRONTEND_DIR="${WORKSPACE_DIR}/frontend";
 BUILD_DIR="${FRONTEND_DIR}/dist/browser";

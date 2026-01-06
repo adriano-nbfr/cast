@@ -10,7 +10,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
 
@@ -35,23 +34,12 @@ public class SecurityConfiguration  {
 			customizer
                 .antMatchers("/api/catalogo/**", "/api/pedidos/**").authenticated()
                 .antMatchers("/api/manutencao/**").hasAnyAuthority(AuthoritiesConstants.PAPEL_GERENTE)
-                .antMatchers("/api/public/**", "/frontend/**").permitAll(); // endpoints públicos da API e arquivos estáticos
+                .antMatchers("/api/public/**", "/frontend/**", "/error").permitAll(); // endpoints públicos da API e arquivos estático
 		};
     }
 
 
-	/* Conteúdo estático do frontend (js, estilos, imagens, fontes etc.) servido sem filtro de segurança.
-     * Apenas recursos que realmente não necessitem de proteção podem ser listados aqui.
-     * Obs: O Spring Security exibe mensagens de warning no log, desaconselhando em favor de usar com .permitAll() acima. */
-	@Bean
-    WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) ->
-        	web.ignoring()
-				.antMatchers("/error");
-    }
-
-
-	@Bean
+    @Bean
 	Set<String> adminList() {
 		Set<String> admins = new HashSet<String>();
 		String adminUserName = env.getProperty(APP_ADMIN_USER_NAME);
